@@ -17,7 +17,6 @@ public class BoardGame {
 	private int boardY;
 	private Cell[][] theCells;
 	private List<Cell> availableCells;
-	private List<Button> theButtons;
 	private Fabrice gFabric;
 	private Random random;
 
@@ -206,8 +205,6 @@ public class BoardGame {
 			for (int x = 0; x < this.boardX; x++) {
 				Cell cell = this.getCell(x, y);
 				System.out.print(cell.display());
-				Button button = cellToButton(cell);
-				if (!theButtons.contains(button)) {theButtons.add(button);}
 			}
 			System.out.print(" " + y);
 			System.out.println();
@@ -227,18 +224,6 @@ public class BoardGame {
 				res.add(theCells[i][j]);
 			}
 		}
-		return res;
-	}
-	
-	public List<Button> getAllButtons() {
-		return this.theButtons;
-	}
-	
-	private Button cellToButton(Cell cell) {
-		Button res = new Button();
-		
-		res.setId("button-"+cell.getId());
-		
 		return res;
 	}
 
