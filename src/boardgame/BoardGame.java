@@ -237,7 +237,7 @@ public class BoardGame {
 	private Button cellToButton(Cell cell) {
 		Button res = new Button();
 		
-		res.setId(cell.getId());
+		res.setId("button-"+cell.getId());
 		
 		return res;
 	}
