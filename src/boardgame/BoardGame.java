@@ -2,7 +2,9 @@ package boardgame;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;;
+import java.util.Random;
+
+import javafx.scene.control.Button;;
 
 /**
  * This class defines methods valid for any BoardGame. The Fabrice object used
@@ -15,6 +17,7 @@ public class BoardGame {
 	private int boardY;
 	private Cell[][] theCells;
 	private List<Cell> availableCells;
+	private List<Button> theButtons;
 	private Fabrice gFabric;
 	private Random random;
 
@@ -201,7 +204,10 @@ public class BoardGame {
 		System.out.println();
 		for (int y = 0; y < this.boardY; y++) {
 			for (int x = 0; x < this.boardX; x++) {
-				System.out.print(this.getCell(x, y).display());
+				Cell cell = this.getCell(x, y);
+				System.out.print(cell.display());
+				Button button = cellToButton(cell);
+				if (!theButtons.contains(button)) {theButtons.add(button);}
 			}
 			System.out.print(" " + y);
 			System.out.println();
@@ -221,6 +227,18 @@ public class BoardGame {
 				res.add(theCells[i][j]);
 			}
 		}
+		return res;
+	}
+	
+	public List<Button> getAllButtons() {
+		return this.theButtons;
+	}
+	
+	private Button cellToButton(Cell cell) {
+		Button res = new Button();
+		
+		res.setId(cell.getId());
+		
 		return res;
 	}
 
