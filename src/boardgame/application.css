@@ -16,8 +16,8 @@
 
 .button {
 	-fx-background-radius: 0;
-	-fx-pref-width: 100px;
-	-fx-pref-height: 100px;
+	-fx-pref-width: 400px;
+	-fx-pref-height: 400px;
 	-fx-font-weight: bold;
 }
 
@@ -26,24 +26,29 @@
 }
 
 #button-OceanCell {
+	-fx-background-image: url("../../src/resources/images/Ocean.jpg");
 	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
 	-fx-text-fill: #fff;
 }
 
 #button-DesertCell {
+	-fx-background-image: url("../../src/resources/images/Desert.jpg");
 	-fx-background-color: #ff7f50;
 }
 
 #button-ForestCell {
+	-fx-background-image: url("../../src/resources/images/Forest.jpg");
 	-fx-background-color: #228b22;
 	-fx-text-fill: #fff;
 }
 
 #button-PlainCell {
+	-fx-background-image: url("../../src/resources/images/Plain.jpg");
 	-fx-background-color: #90ee90;
 }
 
 #button-MountainCell {
+	-fx-background-image: url("../../src/resources/images/Mountain.jpg");
 	-fx-background-color: #bdb76b;
 }
 

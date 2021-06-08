@@ -87,19 +87,14 @@ public class Main extends Application {
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
 		for (int y = 0; y < boardY; y++) {
-			HBox coordinatesLabels = new HBox();
 			HBox buttonsContainer = new HBox();
-			boardVBox.getChildren().addAll(coordinatesLabels, buttonsContainer);
+			boardVBox.getChildren().add(buttonsContainer);
 			for (int x = 0; x < boardX; x++) {
 				Cell cell = board.getCell(x, y);
 				VBox cellContentVBox = new VBox(5);
-				Scene cellScene = new Scene(cellContentVBox,600,600);
-				if (y==0) {
-					int rectSize = boardX/600;
-					Rectangle rectangle = new Rectangle(rectSize, rectSize); 
-					coordinatesLabels.getChildren().add(rectangle);
-				}
-				Button res = new Button(board.getCell(x, y).display());
+				Scene cellScene = new Scene(cellContentVBox);
+
+				Button res = new Button();
 				res.setId("button-"+board.getCell(x, y).getId());
 				res.setOnAction(e -> primaryStage.setScene(cellScene)); 
 				buttonsContainer.getChildren().add(res);
@@ -137,19 +132,10 @@ public class Main extends Application {
 		cellScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 	}
 	
-	/** Ca coule de source...
-	 * 
-	 * @param bool le booléen à convertir en String
-	 * @return lire le nom de la méthode...
-	 */
-	private String booleanToYesNo(boolean bool) {
-		if (bool) { return "Yes.";}
-		else { return "No.";}
-	}
 	
 	private void updateCellStatus(Cell cell, Label busyLabel, Label usableLabel, Label bonusLabel) {
-		busyLabel.setText("Is busy : " + booleanToYesNo(cell.isBusy()) + (cell.isBusy()?"\nOccupied by : "+cell.getUnit().toString():""));
-		usableLabel.setText("Is usable : " + booleanToYesNo(cell.usableInThisGame()) + (cell.usableInThisGame()?"\nProduces : "+cell.getResource().display():""));
+		busyLabel.setText("Is busy : " + (cell.isBusy()?"Yes, it's occupied by "+cell.getUnit().toString():"No")+".");
+		usableLabel.setText("Is usable : " + (cell.usableInThisGame()?"Yes, it produces "+cell.getResource().display():"No")+".");
 		bonusLabel.setText((cell.getBonus()>0)?"End game bonus for owning this cell : " + cell.getBonus():"");
 	}
 	/*
