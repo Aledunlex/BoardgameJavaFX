@@ -1,6 +1,7 @@
 
 
 .button {
+	-fx-background-radius: 0;
 	-fx-pref-width: 100px;
 	-fx-pref-height: 100px;
 	-fx-font-weight: bold;
