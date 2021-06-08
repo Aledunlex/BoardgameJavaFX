@@ -1,15 +1,33 @@
+.root {
+    -fx-background-color:
+        #707070,
+        linear-gradient(#fcfcfc, #f3f3f3),
+        linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
 
+.rectangle {
+	-fx-background-color: transparent;
+}
 
 .button {
 	-fx-background-radius: 0;
 	-fx-pref-width: 100px;
 	-fx-pref-height: 100px;
 	-fx-font-weight: bold;
-	
+}
+
+.button:hover {
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
 #button-OceanCell {
 	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
+	-fx-text-fill: #fff;
 }
 
 #button-DesertCell {
@@ -27,4 +45,26 @@
 
 #button-MountainCell {
 	-fx-background-color: #bdb76b;
+}
+
+#menu-button {
+	-fx-background-color:
+        #707070,
+        linear-gradient(#fcfcfc, #f3f3f3),
+        linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
+	-fx-pref-width : 200;
+	-fx-pref-height : 50;
+}
+
+#cell-scene {
+	-fx-background-color:
+        #707070,
+        linear-gradient(#fcfcfc, #f3f3f3),
+        linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+}
 }
