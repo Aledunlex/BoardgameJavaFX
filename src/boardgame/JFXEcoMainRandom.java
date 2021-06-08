@@ -135,10 +135,10 @@ public class JFXEcoMainRandom extends Application {
 	}
 	
 	private void initGameIntelVBox(Game game) {
-		VBox gameIntelVBox = new VBox();
+		VBox gameIntelVBox = new VBox(10);
 		Label titleLabel= new Label("Game intel");
 		titleLabel.setId("main-title");
-		Button button2= new Button("N'appuyez pas sur ce bouton");
+		Button button2= new Button("Ne cliquez pas");
 		button2.setId("menu-button");
 		button2.setOnAction(e -> System.out.println("Coucou! Pourquoi tu clique sur ce bouton?"));
 		
@@ -148,10 +148,17 @@ public class JFXEcoMainRandom extends Application {
 		for (Cell cell : game.getBoard().getAvailableCells()) {
 			availableLabelString += "\n-"+ cell.toString();
 		}
+		String theMovesString = "This game includes these moves : ";
+		for (Move move : game.getTheMoves()) {
+			theMovesString += "\n-"+ move.display()+"(chosable)";
+		}
+		for (Move move : game.getMandatoryMoves()) {
+			theMovesString += "\n-"+ move.display()+"(mandatory)";
+		}
 		
 		Label label2 = new Label(availableLabelString);
 		Label label3 = new Label(game.getWinner().toString());
-		Label hasBonus = new Label("Honnêtement, jsais pas trop quoi mettre");
+		Label hasBonus = new Label(theMovesString);
 		
 		updateGameStatus(game);
 		
@@ -160,23 +167,31 @@ public class JFXEcoMainRandom extends Application {
 	}
 	
 	private void initPlayersIntelVBox(Game game) {
-		VBox playerIntelVBox = new VBox(5);
+		VBox playerIntelVBox = new VBox(10);
 		Label titleLabel= new Label("Players intel");
 		titleLabel.setId("main-title");
-		Button button2= new Button("N'appuyez VRAIMENT pas!");
+		Button button2= new Button("Ne cliquez VRAIMENT pas!");
 		button2.setId("menu-button");
 		button2.setOnAction(e -> System.out.println("Mais? Arrête d'appuyer!"));
 		
 		Label label1 = new Label("Gandhi VS Odette");
 		label1.setId("sub-title");
-		String availableLabelString = "Available cells : ";
-		for (Cell cell : game.getBoard().getAvailableCells()) {
-			availableLabelString += "\n-"+ cell.toString();
+		String deployedUnits = "";
+		for (Player player : game.getThePlayers()) {
+			deployedUnits += "\n-"+player.toString()+" deployed :";
+			for (Unit unit : player.allDeployedUnits()) {
+				deployedUnits += "\n---"+unit.toString();
+			}
+			deployedUnits += "\n";
+		}
+		String necessityOwned = "";
+		for (Player player : game.getThePlayers()) {
+			necessityOwned += "\n-"+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
 		}
 		
-		Label label2 = new Label(availableLabelString);
+		Label label2 = new Label(deployedUnits);
 		Label label3 = new Label(game.getWinner().toString());
-		Label hasBonus = new Label("Honnêtement, jsais pas trop quoi mettre");
+		Label hasBonus = new Label(necessityOwned);
 		
 		updateGameStatus(game);
 		
@@ -184,6 +199,11 @@ public class JFXEcoMainRandom extends Application {
 		mainScreenHBox.getChildren().add(playerIntelVBox);
 	}
 	
+	/** Devra mettre à jour les différents labels ci-dessus
+	 * Il faudra aussi faire un updatePlayersStatus(Game game)
+	 * 
+	 * @param game dont il faut mettre à jour les labels
+	 */
 	private void updateGameStatus(Game game) {
 		//game.updateCellStatus();
 	}

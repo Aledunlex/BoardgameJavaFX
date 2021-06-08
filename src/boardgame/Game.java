@@ -44,6 +44,20 @@ public abstract class Game {
 	public abstract void addMoveSet();
 
 	/**
+	 * @return the thePlayers
+	 */
+	public List<Player> getThePlayers() {
+		return thePlayers;
+	}
+
+	/**
+	 * @return the mandatoryMoves
+	 */
+	public List<Move> getMandatoryMoves() {
+		return mandatoryMoves;
+	}
+
+	/**
 	 * Adds the mandatory moves for this game, which will all be executed every
 	 * round
 	 */
