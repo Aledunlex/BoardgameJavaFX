@@ -120,11 +120,11 @@ public class Main extends Application {
 		
 		Label label1 = new Label(cell.getId() + " [" + cell.getX() + ";" + cell.getY() + "]");
 		label1.setId("sub-title");
-		Label label2 = new Label(); 
-		Label label3 = new Label(); 
-		Label hasBonus = new Label();
+		Label label2 = cell.getBusyLabel();
+		Label label3 = cell.getUsableLabel();
+		Label hasBonus = cell.getBonusLabel();
 		
-		updateCellStatus(cell, label2, label3, hasBonus);
+		updateCellStatus(cell);
 		
 		cellContentVBox.getChildren().addAll(button2, titleLabel, label1, label2, label3, hasBonus);
 		cellContentVBox.setId("cell-scene");
@@ -133,10 +133,8 @@ public class Main extends Application {
 	}
 	
 	
-	private void updateCellStatus(Cell cell, Label busyLabel, Label usableLabel, Label bonusLabel) {
-		busyLabel.setText("Is busy : " + (cell.isBusy()?"Yes, it's occupied by "+cell.getUnit().toString():"No")+".");
-		usableLabel.setText("Is usable : " + (cell.usableInThisGame()?"Yes, it produces "+cell.getResource().display():"No")+".");
-		bonusLabel.setText((cell.getBonus()>0)?"End game bonus for owning this cell : " + cell.getBonus():"");
+	private void updateCellStatus(Cell cell) {
+		cell.updateCellStatus();
 	}
 	/*
 	private class CellButtonHandler implements EventHandler<ActionEvent> {

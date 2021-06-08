@@ -122,7 +122,9 @@ public abstract class Unit {
 	 * from the game
 	 **/
 	public void quit() {
+		Cell former = this.cell;
 		this.cell.removeUnit();
+		former.updateCellStatus();
 		this.cell = null;
 		this.gold = 0;
 		this.size = 0;

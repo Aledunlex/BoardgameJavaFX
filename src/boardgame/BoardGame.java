@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javafx.scene.control.Button;;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;;
 
 /**
  * This class defines methods valid for any BoardGame. The Fabrice object used
