@@ -29,7 +29,7 @@ public class Main extends Application {
 			
 			boardVBox = new VBox();
 			
-			boardScene = new Scene(boardVBox,600,600);
+			boardScene = new Scene(boardVBox,800,800);
 			
 			boardScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
@@ -94,7 +94,7 @@ public class Main extends Application {
 				VBox cellContentVBox = new VBox(5);
 				Scene cellScene = new Scene(cellContentVBox);
 
-				Button res = new Button();
+				Button res = new Button(board.getCell(x, y).display());
 				res.setId("button-"+board.getCell(x, y).getId());
 				res.setOnAction(e -> primaryStage.setScene(cellScene)); 
 				buttonsContainer.getChildren().add(res);

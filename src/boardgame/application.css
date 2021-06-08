@@ -10,25 +10,22 @@
     -fx-font-size: 14px;
 }
 
-.rectangle {
-	-fx-background-color: transparent;
-}
-
 .button {
 	-fx-background-radius: 0;
-	-fx-pref-width: 400px;
-	-fx-pref-height: 400px;
+	-fx-pref-width: 100px;
+	-fx-pref-height: 100px;
 	-fx-font-weight: bold;
+	-fx-text-fill: #fff;
 }
 
 .button:hover {
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
+/* Les couleurs déclarées ne sont utiles qu'au cas où on enlève les images */
 #button-OceanCell {
 	-fx-background-image: url("../../src/resources/images/Ocean.jpg");
 	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
-	-fx-text-fill: #fff;
 }
 
 #button-DesertCell {
@@ -39,7 +36,6 @@
 #button-ForestCell {
 	-fx-background-image: url("../../src/resources/images/Forest.jpg");
 	-fx-background-color: #228b22;
-	-fx-text-fill: #fff;
 }
 
 #button-PlainCell {
@@ -53,6 +49,7 @@
 }
 
 #menu-button {
+	-fx-text-fill: black;
 	-fx-background-color:
         #707070,
         linear-gradient(#fcfcfc, #f3f3f3),
