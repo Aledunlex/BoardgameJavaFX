@@ -7,18 +7,18 @@ import boardgame.strategy.RandomStrat;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
 public class Main extends Application {
-	private HBox buttonsContainer;
+	private VBox root;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
+			root = new VBox(25);
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
@@ -32,9 +32,9 @@ public class Main extends Application {
 			EcoPlayer musclor = new EcoPlayer("Odette", strat);
 			game.addPlayer(philippe);
 			game.addPlayer(musclor);
-			buttonsContainer = new HBox();
-			placeButtons(root, board);
-			root.getChildren().add(buttonsContainer);
+			
+			placeButtons(board);
+
 			game.play();
 
 			System.out.println("\n # End of eco main #");
@@ -59,17 +59,20 @@ public class Main extends Application {
 		return board;
 	}
 	
-	private void placeButtons(BorderPane root, BoardGame board) {
+	private void placeButtons(BoardGame board) {
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
 		System.out.println(boardX);
 		for (int y = 0; y < boardY; y++) {
+			HBox buttonsContainer = new HBox(5);
+			root.getChildren().add(buttonsContainer);
 			for (int x = 0; x < boardX; x++) {
 				Button res = new Button(board.getCell(x, y).getId());
 				res.setId("button-"+board.getCell(x, y).getId());
 				buttonsContainer.getChildren().add(res);
 			}
-
+			
 		}
+		System.out.println(root);
 	}
 }
