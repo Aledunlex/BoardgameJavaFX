@@ -7,6 +7,7 @@ import boardgame.strategy.RandomStrat;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,7 +19,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			root = new VBox(25);
+			root = new VBox();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
@@ -52,8 +53,8 @@ public class Main extends Application {
 	}
 	
 	private static BoardGame createEcoBoard() {
-		BoardGame board = new BoardGame(5, 5, new FabriceEcolo());
-		while (board.getAvailableCells().size() < 2) {
+		BoardGame board = new BoardGame(10, 10, new FabriceEcolo());
+		while (board.getAvailableCells().size() < 5) {
 			board = createEcoBoard();
 		}
 		return board;
@@ -62,17 +63,14 @@ public class Main extends Application {
 	private void placeButtons(BoardGame board) {
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
-		System.out.println(boardX);
 		for (int y = 0; y < boardY; y++) {
-			HBox buttonsContainer = new HBox(5);
+			HBox buttonsContainer = new HBox();
 			root.getChildren().add(buttonsContainer);
 			for (int x = 0; x < boardX; x++) {
-				Button res = new Button(board.getCell(x, y).getId());
+				Button res = new Button(board.getCell(x, y).display());
 				res.setId("button-"+board.getCell(x, y).getId());
 				buttonsContainer.getChildren().add(res);
 			}
-			
 		}
-		System.out.println(root);
 	}
 }

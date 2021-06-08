@@ -1,1 +1,29 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+
+.button {
+	-fx-pref-width: 100px;
+	-fx-pref-height: 100px;
+	-fx-font-weight: bold;
+	
+}
+
+#button-OceanCell {
+	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
+}
+
+#button-DesertCell {
+	-fx-background-color: #ff7f50;
+}
+
+#button-ForestCell {
+	-fx-background-color: #228b22;
+	-fx-text-fill: #fff;
+}
+
+#button-PlainCell {
+	-fx-background-color: #90ee90;
+}
+
+#button-MountainCell {
+	-fx-background-color: #bdb76b;
+}
