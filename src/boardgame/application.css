@@ -67,4 +67,15 @@
     -fx-text-fill: black;
     -fx-font-size: 14px;
 }
+
+#main-title {
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+
+#sub-title {
+    -fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-weight: bold italics;
 }

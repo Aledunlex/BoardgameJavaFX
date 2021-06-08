@@ -5,6 +5,8 @@ import boardgame.game.GameEco;
 import boardgame.players.EcoPlayer;
 import boardgame.strategy.RandomStrat;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -43,13 +45,13 @@ public class Main extends Application {
 			game.addPlayer(philippe);
 			game.addPlayer(musclor);
 			
-			
+			initBoardView(board);
 			
 			game.play();
 
 			System.out.println("\n # End of eco main #");
 			
-			initBoardView(board);
+			
 			primaryStage.setScene(boardScene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
@@ -93,7 +95,7 @@ public class Main extends Application {
 				VBox cellContentVBox = new VBox(5);
 				Scene cellScene = new Scene(cellContentVBox,600,600);
 				if (y==0) {
-					int rectSize = 600/boardX;
+					int rectSize = boardX/600;
 					Rectangle rectangle = new Rectangle(rectSize, rectSize); 
 					coordinatesLabels.getChildren().add(rectangle);
 				}
@@ -115,20 +117,22 @@ public class Main extends Application {
 	private void initCellScene(Cell cell, Scene cellScene, VBox cellContentVBox) {
 		Label titleLabel= new Label("Cell details");
 		titleLabel.setShape(new Rectangle(10,10));
+		titleLabel.setId("main-title");
 		Button button2= new Button("Back to board");
 		button2.setId("menu-button");
 		button2.setPrefWidth(5000);
 		button2.setOnAction(e -> primaryStage.setScene(boardScene));
 		
 		Label label1 = new Label(cell.getId() + " [" + cell.getX() + ";" + cell.getY() + "]");
-		Label label2 = new Label("Is busy : " + booleanToYesNo(cell.isBusy())); 
-		Label label3 = new Label("Is usable : " + booleanToYesNo(cell.usableInThisGame())); 
-		cellContentVBox.getChildren().addAll(button2, titleLabel, label1, label2, label3);
-		cellContentVBox.setId("cell-scene");
+		label1.setId("sub-title");
+		Label label2 = new Label(); 
+		Label label3 = new Label(); 
+		Label hasBonus = new Label();
 		
-		if (cell.isBusy()) { Label occupiedBy = new Label("Occupied by : " + cell.getUnit().toString()); cellContentVBox.getChildren().add(occupiedBy); }
-		if (cell.usableInThisGame()) { Label producesSome = new Label("Produces : " + cell.getResource().display()); cellContentVBox.getChildren().add(producesSome); }
-		if (cell.getBonus()>0) { Label hasBonus = new Label("End game bonus for owning this cell : " + cell.getBonus()); cellContentVBox.getChildren().add(hasBonus); }
+		updateCellStatus(cell, label2, label3, hasBonus);
+		
+		cellContentVBox.getChildren().addAll(button2, titleLabel, label1, label2, label3, hasBonus);
+		cellContentVBox.setId("cell-scene");
 		
 		cellScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 	}
@@ -142,4 +146,18 @@ public class Main extends Application {
 		if (bool) { return "Yes.";}
 		else { return "No.";}
 	}
+	
+	private void updateCellStatus(Cell cell, Label busyLabel, Label usableLabel, Label bonusLabel) {
+		busyLabel.setText("Is busy : " + booleanToYesNo(cell.isBusy()) + (cell.isBusy()?"\nOccupied by : "+cell.getUnit().toString():""));
+		usableLabel.setText("Is usable : " + booleanToYesNo(cell.usableInThisGame()) + (cell.usableInThisGame()?"\nProduces : "+cell.getResource().display():""));
+		bonusLabel.setText((cell.getBonus()>0)?"End game bonus for owning this cell : " + cell.getBonus():"");
+	}
+	/*
+	private class CellButtonHandler implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			updateCellStatus();
+		}
+	}
+	*/
 }
