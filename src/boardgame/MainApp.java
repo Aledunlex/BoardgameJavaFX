@@ -1,9 +1,5 @@
 package boardgame;
 	
-import boardgame.fabrices.FabriceEcolo;
-import boardgame.game.GameEco;
-import boardgame.players.EcoPlayer;
-import boardgame.strategy.RandomStrat;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

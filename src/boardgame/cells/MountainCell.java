@@ -2,7 +2,7 @@ package boardgame.cells;
 
 import boardgame.Cell;
 import boardgame.Resource;
-import boardgame.resources.Rock;
+import boardgame.resources.Stone;
 
 /**
  * A sub-class of Cell, creates a MountainCell object, which will then be used
@@ -23,7 +23,7 @@ public class MountainCell extends Cell {
 
 	@Override
 	public Resource getResource() {
-		return new Rock(this.value);
+		return new Stone(this.value);
 	}
 
 	@Override

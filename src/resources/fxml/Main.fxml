@@ -46,10 +46,11 @@
                                                 </AnchorPane>
                                             </content>
                                           </ScrollPane>
-                                          <Label fx:id="busyLabel" layoutX="24.0" layoutY="66.0" />
-                                          <Label fx:id="usableLabel" layoutX="24.0" layoutY="83.0" />
-                                          <Label fx:id="surroundingsLabel" layoutX="24.0" layoutY="100.0" />
-                                          <Label fx:id="bonusLabel" layoutX="24.0" layoutY="117.0" />
+                                          <Label id="sub-title" fx:id="cellLabel" LayoutX="4.0" layoutY="49.0" stylesheets="@../css/Main.css" />
+                                          <Label fx:id="busyLabel" layoutX="24.0" layoutY="77.0" />
+                                          <Label fx:id="usableLabel" layoutX="24.0" layoutY="94.0" />
+                                          <Label fx:id="surroundingsLabel" layoutX="24.0" layoutY="111.0" />
+                                          <Label fx:id="bonusLabel" layoutX="24.0" layoutY="128.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

@@ -25,37 +25,40 @@ public class MainController implements Initializable {
 	private ArrayList<Cell> surroundingCells;
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
+	private Game theGame;
 	
 	@FXML
 	private Pane boardPane;
 	@FXML
-	private Label busyLabel, usableLabel, surroundingsLabel, bonusLabel;
+	private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
 	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
-		if (e.getSource() == clickedCell)
-			updateCellStatus();
-		else 
-			System.out.println(e.getSource());
+		int row = buttonsContainer.getRowIndex((Button) e.getSource());
+		int column = buttonsContainer.getColumnIndex((Button) e.getSource());
+
+		clickedCell = theGame.getBoard().getCell(row, column);
+		updateCellStatus();
 	}
 	
 	private void updateCellStatus() {
+		cellLabel.setText(clickedCell.getId() + " at [" + clickedCell.getX() + "," + clickedCell.getY() + ']');
 		busyLabel.setText("Is busy : " + (clickedCell.isBusy()?"Yes, it's occupied by "+clickedCell.getUnit().toString():"No")+".");
 		usableLabel.setText("Is usable : " + (clickedCell.usableInThisGame()?"Yes, it produces "+clickedCell.getResource().display():"No")+".");
-		/*surroundingsLabel.setText("Is surrounded by : " + (determineSurroundings(clickedCell)?determineSurroundings(clickedCell)):"No one.");*/
+		/*surroundingsLabel.setText("Is surrounded by : " + (determineSurroundings()?determineSurroundings()):"No one.");*/
 		bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
 	}
 	
-	private void determineSurroundings(Cell cell) {
+	private void determineSurroundings() {
 		;
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("appel du contrôleur");
-		Game game = initGame();
-		initBoardView(game.getBoard());
-		game.play();
+		initGame();
+		initBoardView();
+		theGame.play();
 	}
 	
 	/** Les Cell sont chargées avec les éventuelles Unit placées dessus.
@@ -64,9 +67,9 @@ public class MainController implements Initializable {
 	 * De plus, chaque bouton est cliquable et renvoie sur une autre fenêtre qui donne les informations 
 	 * relatives à la tuile cliquée.
 	 * 
-	 * @param board du jeu
 	 */
-	private void initBoardView(BoardGame board) {
+	private void initBoardView() {
+		BoardGame board = theGame.getBoard();
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
 		for (int y = 0; y < boardY; y++) {
@@ -83,7 +86,7 @@ public class MainController implements Initializable {
 		}
 	}
 	
-	public Game initGame() {
+	public void initGame() {
 		Strategy strat = new RandomStrat();
 		BoardGame board = createEcoBoard();
 		GameEco game = new GameEco(board, ROUNDS);
@@ -91,8 +94,7 @@ public class MainController implements Initializable {
 		EcoPlayer musclor = new EcoPlayer("Odette", strat);
 		game.addPlayer(philippe);
 		game.addPlayer(musclor);
-		
-		return game;
+		theGame=game;
 	}
 	
 	private BoardGame createEcoBoard() {
