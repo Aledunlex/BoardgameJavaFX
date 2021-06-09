@@ -24,27 +24,27 @@
 
 /* Les couleurs déclarées ne sont utiles qu'au cas où on enlève les images */
 #button-OceanCell {
-	-fx-background-image: url("../../src/resources/images/Ocean.jpg");
+	-fx-background-image: url("../images/Ocean.jpg");
 	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
 }
 
 #button-DesertCell {
-	-fx-background-image: url("../../src/resources/images/Desert.jpg");
+	-fx-background-image: url("../images/Desert.jpg");
 	-fx-background-color: #ff7f50;
 }
 
 #button-ForestCell {
-	-fx-background-image: url("../../src/resources/images/Forest.jpg");
+	-fx-background-image: url("../images/Forest.jpg");
 	-fx-background-color: #228b22;
 }
 
 #button-PlainCell {
-	-fx-background-image: url("../../src/resources/images/Plain.jpg");
+	-fx-background-image: url("../images/Plain.jpg");
 	-fx-background-color: #90ee90;
 }
 
 #button-MountainCell {
-	-fx-background-image: url("../../src/resources/images/Mountain.jpg");
+	-fx-background-image: url("../Mountain.jpg");
 	-fx-background-color: #bdb76b;
 }
 

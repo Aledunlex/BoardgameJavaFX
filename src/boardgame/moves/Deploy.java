@@ -55,8 +55,6 @@ public abstract class Deploy extends MoveAdapter {
 				board.getAvailableCells().remove(newCell);
 				System.out.println(
 						player.toString() + " deployed " + aOrAn + uDisplay + " at " + newCell.toString() + ". ");
-				
-				cell.updateCellStatus();
 			}
 		}
 	}

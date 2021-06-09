@@ -16,6 +16,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
+/**
+ * DEPRECATED
+ * @author Alexandre
+ *
+ */
+
 public class JFXEcoMainRandom extends Application {
 	private HBox mainScreenHBox;
 	private Scene mainScreenScene;
@@ -148,14 +154,14 @@ public class JFXEcoMainRandom extends Application {
 		label1.setId("sub-title");
 		String availableLabelString = "Available cells : ";
 		for (Cell cell : game.getBoard().getAvailableCells()) {
-			availableLabelString += "\n-"+ cell.toString();
+			availableLabelString += "\n- "+ cell.toString();
 		}
 		String theMovesString = "This game includes these moves : ";
 		for (Move move : game.getTheMoves()) {
-			theMovesString += "\n-"+ move.display()+"(chosable)";
+			theMovesString += "\n- "+ move.display()+"(chosable)";
 		}
 		for (Move move : game.getMandatoryMoves()) {
-			theMovesString += "\n-"+ move.display()+"(mandatory)";
+			theMovesString += "\n- "+ move.display()+"(mandatory)";
 		}
 		
 		Label availableCellsLabel = new Label(availableLabelString);
@@ -180,19 +186,19 @@ public class JFXEcoMainRandom extends Application {
 		subTitleLabel.setId("sub-title");
 		String deployedUnits = "";
 		for (Player player : game.getThePlayers()) {
-			deployedUnits += "\n-"+player.toString()+" deployed :";
+			deployedUnits += "\n- "+player.toString()+" deployed :";
 			for (Unit unit : player.allDeployedUnits()) {
-				deployedUnits += "\n---"+unit.toString();
+				deployedUnits += "\n--- "+unit.toString();
 			}
 			deployedUnits += "\n";
 		}
 		String necessityOwned = "";
 		for (Player player : game.getThePlayers()) {
-			necessityOwned += "\n-"+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
+			necessityOwned += "\n- "+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
 		}
 		String totalOwnedGold = "";
 		for (Player player : game.getThePlayers()) {
-			totalOwnedGold += "\n-"+player.toString() + "'s units cumulated a total of ";
+			totalOwnedGold += "\n- "+player.toString() + "'s units cumulated a total of ";
 			int unitsGold = 0;
 			if (!player.allDeployedUnits().isEmpty()) {
 				for (Unit unit : player.allDeployedUnits())

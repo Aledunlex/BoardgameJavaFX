@@ -98,8 +98,6 @@ public class DeployArmy extends Deploy {
 						this.alliesEncounter(otherSize, around, otherUnit, unitGold, u, currentTeam);
 					}
 				}
-				cell.updateCellStatus();
-				around.updateCellStatus();
 			}
 		}
 		if (allCleared)

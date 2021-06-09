@@ -1,9 +1,5 @@
 package boardgame;
 
-import java.util.ArrayList;
-
-import javafx.scene.control.Label;
-
 /**
  * This abstract class defines the basics of what a Cell is going to be in most
  * games.
@@ -21,7 +17,7 @@ public abstract class Cell {
 	protected int bonus;
 	protected int tacticalAdvantage;
 	protected String Id;
-	protected Label busyLabel, usableLabel, bonusLabel;
+	protected BoardGame inBoard;
 
 	/**
 	 * Builds, on a board, a cell of given x and y coordinates, cost for a Unit to
@@ -43,7 +39,6 @@ public abstract class Cell {
 		this.cost = cost;
 		this.value = value;
 		this.gold = gold;
-		this.initLabels();
 	}
 	
 	/**
@@ -234,29 +229,11 @@ public abstract class Cell {
 	public boolean isBusy() {
 		return this.currentUnit != null;
 	}
-	
-	public void updateCellStatus() {
-		busyLabel.setText("Is busy : " + (this.isBusy()?"Yes, it's occupied by "+this.getUnit().toString():"No")+".");
-		usableLabel.setText("Is usable : " + (this.usableInThisGame()?"Yes, it produces "+this.getResource().display():"No")+".");
-		bonusLabel.setText((this.getBonus()>0)?"End game bonus for owning this cell : " + this.getBonus():"");
-	}
-	
-	private void initLabels() {
-		busyLabel = new Label(); 
-		usableLabel = new Label(); 
-		bonusLabel = new Label();
-	}
-	
-	public Label getBusyLabel() {
-		return busyLabel;
-	}
-	
-	public Label getUsableLabel() {
-		return usableLabel;
-	}
-	
-	public Label getBonusLabel() {
-		return bonusLabel;
-	}
 
+	/**
+	 * @return the board the Cell is in
+	 */
+	public BoardGame getInBoard() {
+		return inBoard;
+	}
 }
