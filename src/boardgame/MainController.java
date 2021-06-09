@@ -13,8 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 public class MainController implements Initializable {
 	
@@ -24,6 +24,7 @@ public class MainController implements Initializable {
 
 	private ArrayList<Cell> surroundingCells;
 	private Cell clickedCell;
+	private GridPane buttonsContainer;
 	
 	@FXML
 	private Pane boardPane;
@@ -69,15 +70,15 @@ public class MainController implements Initializable {
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
 		for (int y = 0; y < boardY; y++) {
-			VBox buttonsContainer = new VBox();
+			buttonsContainer = new GridPane();
 			boardPane.getChildren().add(buttonsContainer);
 			for (int x = 0; x < boardX; x++) {
 				Cell cell = board.getCell(x, y);
 				Button res = new Button(cell.display());
 				res.setId("button-"+cell.getId());
+				res.getStylesheets().add(getClass().getResource("/resources/css/Main.css").toExternalForm());
 				res.setOnAction(e -> handleCellClicked(e)); 
-				buttonsContainer.getChildren().add(res);
-				//res.getStylesheets().add(getClass().getResource("../../resources/css/Main.css").toExternalForm());
+				buttonsContainer.add(res,y,x);
 			}
 		}
 	}
