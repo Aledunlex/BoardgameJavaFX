@@ -43,16 +43,18 @@ public class JFXEcoMainRandom extends Application {
 			game.addPlayer(philippe);
 			game.addPlayer(musclor);
 			
-			initBoardView(board);
-			initGameIntelVBox(game);
-			initPlayersIntelVBox(game);
 			
+
+			initBoardView(board);
 			game.play();
 			
+			initGameIntelVBox(game);
+			initPlayersIntelVBox(game);
 			primaryStage.setScene(mainScreenScene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			primaryStage.centerOnScreen();
+
 
 			System.out.println("\n # End of eco main #");
 
@@ -156,13 +158,13 @@ public class JFXEcoMainRandom extends Application {
 			theMovesString += "\n-"+ move.display()+"(mandatory)";
 		}
 		
-		Label label2 = new Label(availableLabelString);
-		Label label3 = new Label(game.getWinner().toString());
-		Label hasBonus = new Label(theMovesString);
+		Label availableCellsLabel = new Label(availableLabelString);
+		Label winnerLabel = new Label("Winner : " + game.getWinner().toString() + (game.getWinner().size()>1?" (tie).":"."));
+		Label allMovesLabel = new Label(theMovesString);
 		
 		updateGameStatus(game);
 		
-		gameIntelVBox.getChildren().addAll(button2, titleLabel, label1, label2, label3, hasBonus);
+		gameIntelVBox.getChildren().addAll(button2, titleLabel, label1, availableCellsLabel, winnerLabel, allMovesLabel);
 		mainScreenHBox.getChildren().add(gameIntelVBox);
 	}
 	
@@ -174,8 +176,8 @@ public class JFXEcoMainRandom extends Application {
 		button2.setId("menu-button");
 		button2.setOnAction(e -> System.out.println("Mais? Arrête d'appuyer!"));
 		
-		Label label1 = new Label("Gandhi VS Odette");
-		label1.setId("sub-title");
+		Label subTitleLabel = new Label("Gandhi VS Odette");
+		subTitleLabel.setId("sub-title");
 		String deployedUnits = "";
 		for (Player player : game.getThePlayers()) {
 			deployedUnits += "\n-"+player.toString()+" deployed :";
@@ -188,14 +190,24 @@ public class JFXEcoMainRandom extends Application {
 		for (Player player : game.getThePlayers()) {
 			necessityOwned += "\n-"+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
 		}
+		String totalOwnedGold = "";
+		for (Player player : game.getThePlayers()) {
+			totalOwnedGold += "\n-"+player.toString() + "'s units cumulated a total of ";
+			int unitsGold = 0;
+			if (!player.allDeployedUnits().isEmpty()) {
+				for (Unit unit : player.allDeployedUnits())
+					unitsGold += unit.getGold();
+			}
+			totalOwnedGold += unitsGold + " coin" +(unitsGold==1?"":"s") +".";
+		}
 		
-		Label label2 = new Label(deployedUnits);
-		Label label3 = new Label(game.getWinner().toString());
-		Label hasBonus = new Label(necessityOwned);
+		Label deployedUnitsLabel = new Label(deployedUnits);
+		Label unitsOwnedGOldLabel = new Label(totalOwnedGold);
+		Label ownsNecessities = new Label(necessityOwned);
 		
 		updateGameStatus(game);
 		
-		playerIntelVBox.getChildren().addAll(button2, titleLabel, label1, label2, label3, hasBonus);
+		playerIntelVBox.getChildren().addAll(button2, titleLabel, subTitleLabel, deployedUnitsLabel, unitsOwnedGOldLabel, ownsNecessities);
 		mainScreenHBox.getChildren().add(playerIntelVBox);
 	}
 	
