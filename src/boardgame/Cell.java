@@ -236,4 +236,5 @@ public abstract class Cell {
 	public BoardGame getInBoard() {
 		return inBoard;
 	}
+
 }

@@ -1,11 +1,10 @@
 package boardgame;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;;
+import java.util.Random;;
 
 /**
  * This class defines methods valid for any BoardGame. The Fabrice object used
@@ -20,6 +19,7 @@ public class BoardGame {
 	private List<Cell> availableCells;
 	private Fabrice gFabric;
 	private Random random;
+	private PropertyChangeSupport propertyChangeSupport;
 
 	private static final int MINIMUM_OCEAN = 2 / 3;
 
@@ -40,6 +40,7 @@ public class BoardGame {
 		this.random = new Random();
 		this.initBoard();
 		this.initAvailableCells();
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 
 	/**
@@ -228,4 +229,8 @@ public class BoardGame {
 		return res;
 	}
 
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+	
 }

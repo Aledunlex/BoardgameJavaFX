@@ -1,7 +1,8 @@
 package boardgame;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import boardgame.fabrices.FabriceEcolo;
@@ -16,13 +17,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, PropertyChangeListener {
 	
 	private static int ROUNDS = 6;
 	private static int BOARD_WIDTH = 10;
 	private static int BOARD_LENGHT = 10;
 
-	private ArrayList<Cell> surroundingCells;
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
 	private Game theGame;
@@ -31,12 +31,13 @@ public class MainController implements Initializable {
 	private Pane boardPane;
 	@FXML
 	private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
+	@FXML
+	private Label currentRound, availableCells, winnerDisplay;
 	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
-		int row = buttonsContainer.getRowIndex((Button) e.getSource());
-		int column = buttonsContainer.getColumnIndex((Button) e.getSource());
-
+		int row = GridPane.getRowIndex((Button) e.getSource());
+		int column = GridPane.getColumnIndex((Button) e.getSource());
 		clickedCell = theGame.getBoard().getCell(row, column);
 		updateCellStatus();
 	}
@@ -49,6 +50,8 @@ public class MainController implements Initializable {
 		bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
 	}
 	
+	
+	
 	private void determineSurroundings() {
 		;
 	}
@@ -56,7 +59,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("appel du contrôleur");
-		initGame();
+		initEcoGame();
 		initBoardView();
 		theGame.play();
 	}
@@ -76,7 +79,7 @@ public class MainController implements Initializable {
 			buttonsContainer = new GridPane();
 			boardPane.getChildren().add(buttonsContainer);
 			for (int x = 0; x < boardX; x++) {
-				Cell cell = board.getCell(x, y);
+				Cell cell = board.getCell(y, x);
 				Button res = new Button(cell.display());
 				res.setId("button-"+cell.getId());
 				res.getStylesheets().add(getClass().getResource("/resources/css/Main.css").toExternalForm());
@@ -86,7 +89,7 @@ public class MainController implements Initializable {
 		}
 	}
 	
-	public void initGame() {
+	public void initEcoGame() {
 		Strategy strat = new RandomStrat();
 		BoardGame board = createEcoBoard();
 		GameEco game = new GameEco(board, ROUNDS);
@@ -103,6 +106,12 @@ public class MainController implements Initializable {
 			board = createEcoBoard();
 		}
 		return board;
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

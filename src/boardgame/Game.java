@@ -1,5 +1,7 @@
 package boardgame;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public abstract class Game {
 	protected BoardGame board;
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
+	protected PropertyChangeSupport propertyChangeSupport;
 
 	/**
 	 * Create a game with a given board and corresponding set of moves
@@ -35,6 +38,7 @@ public abstract class Game {
 		this.mandatoryMoves = new ArrayList<Move>();
 		this.addMoveSet();
 		this.addMandatoryMoves();
+		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 
 	/**
@@ -130,6 +134,7 @@ public abstract class Game {
 			}
 		}
 		maxRounds--;
+		propertyChangeSupport.firePropertyChange("maxRounds", maxRounds+1, maxRounds);
 	}
 
 	/**
@@ -269,5 +274,9 @@ public abstract class Game {
 	 */
 	public void addSomeMove(Move move, List<Move> moveList) {
 		moveList.add(move);
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
 	}
 }
