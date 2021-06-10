@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable, PropertyChangeListener {
 	
-	private static int ROUNDS = 6;
+	private static int ROUNDS = 15;
 	private static int BOARD_WIDTH = 10;
 	private static int BOARD_LENGHT = 10;
 
@@ -49,6 +49,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	protected void startGame(ActionEvent e) {
 		theGame.play();
+		updateWinnerLabel();
 	}
 	
 	private void updateCellStatus() {
@@ -70,7 +71,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 		System.out.println("appel du contrôleur");
 		initEcoGame();
 		initBoardView();
-		updateWinnerLabel();
 	}
 	
 	/** Les Cell sont chargées avec les éventuelles Unit placées dessus.
@@ -131,16 +131,16 @@ public class MainController implements Initializable, PropertyChangeListener {
 			Cell cell = (Cell) evt.getSource();
 			Button button = getButtonAt(cell);
 			String btnId = button.getId();
-			if (cell.getUnit() == null) {
-				btnId = btnId.substring(0, btnId.length() - 5);
-				button.setId(btnId);
+			if (evt.getNewValue() == null) {
+				btnId = btnId.substring(0, btnId.length()-5);
 			}
 			else {
-				btnId += "busy";
+				btnId += "-busy";
 			}
-			System.out.println(btnId);
+			button.setId(btnId);
+			System.out.println(button.getId());
 		}
-		else {System.out.println("La source est : " + evt.getSource());}
+		/*else {System.out.println("La source est : " + evt.getSource());}*/
 	}
 	
 	private void updateRoundLabel() {
@@ -160,13 +160,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private Button getButtonAt(Cell cell) {
 		int x = cell.getX();
 		int y = cell.getY();
-	    Button result = null;
-
-    	System.out.println("X C'EST " +x);
-    	System.out.println("Y C'EST " +y);
-	    
+	    Button result = null;    
     	result = (Button) this.gridPaneArray[x][y];
-    	
 	    return result;
 	}
 	

@@ -22,7 +22,7 @@
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
-/* Les couleurs déclarées ne sont utiles qu'au cas où on enlève les images */
+
 #button-OceanCell {
 	-fx-background-image: url("../images/Ocean.jpg");
 	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
@@ -30,21 +30,37 @@
 
 #button-DesertCell {
 	-fx-background-image: url("../images/Desert.jpg");
-	-fx-background-color: #ff7f50;
+
 }
 
 #button-ForestCell {
 	-fx-background-image: url("../images/Forest.jpg");
-	-fx-background-color: #228b22;
+
 }
 
 #button-PlainCell {
 	-fx-background-image: url("../images/Plain.jpg");
-	-fx-background-color: #90ee90;
+
 }
 
 #button-MountainCell {
 	-fx-background-image: url("../images/Mountain.jpg");
+
+}
+
+#button-DesertCell-busy {
+	-fx-background-color: #ff7f50;
+}
+
+#button-ForestCell-busy {
+	-fx-background-color: #228b22;
+}
+
+#button-PlainCell-busy {
+	-fx-background-color: #90ee90;
+}
+
+#button-MountainCell-busy {
 	-fx-background-color: #bdb76b;
 }
 
