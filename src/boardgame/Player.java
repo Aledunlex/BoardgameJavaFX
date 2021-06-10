@@ -1,15 +1,18 @@
 package boardgame;
 
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import boardgame.util.AbstractPropertyChangeable;
 
 /**
  * This abstract class defines some methods valid for any Player. The strategy
  * object used as parameter defines which strategy will be used by the Player.
  */
 
-public abstract class Player {
+public abstract class Player extends AbstractPropertyChangeable {
 
 	protected final String name;
 	protected int score;
@@ -84,6 +87,7 @@ public abstract class Player {
 	 * @param value to be set
 	 */
 	public void setNeedQty(int value) {
+		propertyChangeSupport.firePropertyChange("stuffToPleaseUnit", this.stuffToPleaseUnit, value);
 		this.stuffToPleaseUnit = value;
 	}
 
@@ -122,6 +126,7 @@ public abstract class Player {
 	 * @param score to be set
 	 */
 	public void setScore(int score) {
+		propertyChangeSupport.firePropertyChange("score", this.score, score);
 		this.score = score;
 	}
 
@@ -134,8 +139,12 @@ public abstract class Player {
 	 * @return true if the Player's attributes allows to place this unit
 	 */
 	public boolean addDeployedUnit(Unit unit) {
+		List<Unit> previousUnits = deployedUnits;
+		List<Cell> previousCells = controlledCells;
 		this.deployedUnits.add(unit);
 		this.controlledCells.add(unit.getCell());
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, controlledCells);
 		return true;
 	}
 
@@ -156,9 +165,13 @@ public abstract class Player {
 	 * @param unit to be removed from this player's list of units
 	 */
 	public void removeUnit(Unit unit) {
+		List<Unit> previousUnits = deployedUnits;
+		List<Cell> previousCells = controlledCells;
 		this.controlledCells.remove(unit.getCell());
 		this.deployedUnits.remove(unit);
 		unit.quit();
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, controlledCells);
 	}
 
 	/**
@@ -196,8 +209,10 @@ public abstract class Player {
 	 * @param resource type of resource to add
 	 */
 	public void addResource(Resource resource) {
+		HashMap<String, ArrayList<Resource>> previous = this.resources;
 		ArrayList<Resource> res = this.resources.get(resource.getId());
 		res.add(resource);
+		propertyChangeSupport.firePropertyChange("resources", previous, this.resources);
 	}
 
 	/**
@@ -208,10 +223,12 @@ public abstract class Player {
 	 * @param amount the amount to remove
 	 */
 	public void removeResource(String id, int amount) {
+		HashMap<String, ArrayList<Resource>> previous = this.resources;
 		ArrayList<Resource> res = this.resources.get(id);
 		for (int i = 0; i < amount; i++) {
 			res.remove(0);
 		}
+		propertyChangeSupport.firePropertyChange("resources", previous, this.resources);
 	}
 
 	/**

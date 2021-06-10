@@ -1,11 +1,13 @@
 package boardgame;
 
+import boardgame.util.AbstractPropertyChangeable;
+
 /**
  * This abstract class defines some methods valid for any Unit. Units have
  * specific displays for standard output, and may or may not need a salary.
  */
 
-public abstract class Unit {
+public abstract class Unit extends AbstractPropertyChangeable {
 
 	protected Cell cell;
 	protected Player team;
@@ -59,8 +61,8 @@ public abstract class Unit {
 	 * @param cell on which the Unit will be moved
 	 **/
 	public void setCell(Cell cell) {
+		propertyChangeSupport.firePropertyChange("cell", this.cell, cell);
 		this.cell = cell;
-
 	}
 
 	/**
@@ -78,6 +80,7 @@ public abstract class Unit {
 	 * @param team, the player who will own this unit
 	 **/
 	public void setTeam(Player team) {
+		propertyChangeSupport.firePropertyChange("team", this.team, team);
 		this.team = team;
 	}
 
@@ -96,6 +99,7 @@ public abstract class Unit {
 	 * @param gold, the desired amount of gold
 	 **/
 	public void setGold(int gold) {
+		propertyChangeSupport.firePropertyChange("gold", this.gold, gold);
 		this.gold = gold;
 	}
 
@@ -114,6 +118,7 @@ public abstract class Unit {
 	 * @param newSize the desired size for the Unit
 	 **/
 	public void setSize(int newSize) {
+		propertyChangeSupport.firePropertyChange("size", this.size, newSize);
 		this.size = newSize;
 	}
 
@@ -123,9 +128,10 @@ public abstract class Unit {
 	 **/
 	public void quit() {
 		this.cell.removeUnit();
-		this.cell = null;
-		this.gold = 0;
-		this.size = 0;
+		setCell(null);
+		setGold(0);
+		setSize(0);
+		setTeam(null);
 	}
 
 	@Override

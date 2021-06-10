@@ -1,11 +1,13 @@
 package boardgame;
 
+import boardgame.util.AbstractPropertyChangeable;
+
 /**
  * This abstract class defines the basics of what a Cell is going to be in most
  * games.
  */
 
-public abstract class Cell {
+public abstract class Cell extends AbstractPropertyChangeable {
 
 	protected int gold;
 	protected int maxUnitSize;
@@ -121,6 +123,7 @@ public abstract class Cell {
 	 **/
 	public boolean addUnit(Unit unit) {
 		if ((unit.getSize() <= this.maxUnitSize) && !this.isBusy() && this.usableInThisGame()) {
+			propertyChangeSupport.firePropertyChange("currentUnit", this.currentUnit, unit);
 			this.currentUnit = unit;
 			return true;
 		} else {
@@ -138,6 +141,7 @@ public abstract class Cell {
 		if ((!this.isBusy())) {
 			return false;
 		} else {
+			propertyChangeSupport.firePropertyChange("currentUnit", this.currentUnit, null);
 			this.currentUnit = null;
 			return true;
 		}

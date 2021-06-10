@@ -1,9 +1,9 @@
 package boardgame;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+
+import boardgame.util.AbstractPropertyChangeable;
 
 /**
  * This abstract class defines some methods valid for any Game. Other methods
@@ -14,14 +14,13 @@ import java.util.List;
  * starting a game.
  */
 
-public abstract class Game {
+public abstract class Game extends AbstractPropertyChangeable {
 
 	protected List<Player> thePlayers;
 	protected List<Move> theMoves;
 	protected BoardGame board;
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
-	protected PropertyChangeSupport propertyChangeSupport;
 
 	/**
 	 * Create a game with a given board and corresponding set of moves
@@ -38,7 +37,6 @@ public abstract class Game {
 		this.mandatoryMoves = new ArrayList<Move>();
 		this.addMoveSet();
 		this.addMandatoryMoves();
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 
 	/**
@@ -278,8 +276,5 @@ public abstract class Game {
 	public void addSomeMove(Move move, List<Move> moveList) {
 		moveList.add(move);
 	}
-	
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
-	}
+
 }
