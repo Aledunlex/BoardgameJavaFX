@@ -122,7 +122,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 		board.displayBoard();
 		for (Player p : thePlayers) {
 			if (!this.isFinished()) {
-				while (paused) {;}
+				/*if (paused) {Timer.*/
 				System.out.println("__________________________________\n\n");
 				System.out.println("#### BEGINNING " + p.toString().toUpperCase() + "'S TURN ####\nIt's " + p.toString()
 						+ "'s turn !");

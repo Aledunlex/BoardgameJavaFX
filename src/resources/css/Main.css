@@ -30,22 +30,18 @@
 
 #button-DesertCell {
 	-fx-background-image: url("../images/Desert.jpg");
-
 }
 
 #button-ForestCell {
 	-fx-background-image: url("../images/Forest.jpg");
-
 }
 
 #button-PlainCell {
 	-fx-background-image: url("../images/Plain.jpg");
-
 }
 
 #button-MountainCell {
 	-fx-background-image: url("../images/Mountain.jpg");
-
 }
 
 #button-DesertCell-busy {

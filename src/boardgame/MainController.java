@@ -34,7 +34,9 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
 	@FXML
-	private Label gameProgressLabel, currentRound, availableCells, winnerDisplay;
+	private Label gameProgressLabel, currentRound, winnerDisplay;
+	@FXML
+	private Label eachplayernbofdeployed, eachplayerremainingfood, eachplayerunitsownedgold;
 	@FXML
 	private Button startButton, nextPlayer;
 	
@@ -61,6 +63,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 
 	@FXML
+	/**
+	 * Pas aussi simple
+	 * @param e when player clicks "unpause" button, currently non functionnal
+	 */
 	private void nextPlayer(ActionEvent e) {
 		if (theGame.isPaused())
 			theGame.setPaused(false);
@@ -81,14 +87,12 @@ public class MainController implements Initializable, PropertyChangeListener {
 	 * 
 	 */
 	private void initBoardView() {
-		if (buttonsContainer != null) {buttonsContainer = null; System.out.println("coucou");}
 		BoardGame board = theGame.getBoard();
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
 		buttonsContainer = new GridPane();
 		boardPane.getChildren().add(buttonsContainer);
 		for (int y = 0; y < boardY; y++) {
-			
 			for (int x = 0; x < boardX; x++) {
 				Cell cell = board.getCell(x, y);
 				Button res = new Button(cell.display());
@@ -98,7 +102,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 				buttonsContainer.add(res,y,x);
 			}
 		}
-		System.out.println(this.buttonsContainer.getChildren());
 		initializeGridPaneArray();
 	}
 	
@@ -128,19 +131,46 @@ public class MainController implements Initializable, PropertyChangeListener {
 			updateRoundLabel();
 		}
 		else if (evt.getPropertyName() == "currentUnit") {
-			Cell cell = (Cell) evt.getSource();
-			Button button = getButtonAt(cell);
-			String btnId = button.getId();
-			if (evt.getNewValue() == null) {
-				btnId = btnId.substring(0, btnId.length()-5);
-			}
-			else {
-				btnId += "-busy";
-			}
-			button.setId(btnId);
-			System.out.println(button.getId());
+			updateCellButtonId(evt);
+		}
+		else if (evt.getPropertyName() == "stuffToPleaseUnit") {
+			updateStuffToPleaseLabel(evt);
+		}
+		/* en dessous plus rien ne marche jsp pourquoi */
+		else if (evt.getPropertyName() == "controlledCells") {
+			System.out.println("couco#######################################################################################u");
+			updateOwnedCellsLabel(evt);
 		}
 		/*else {System.out.println("La source est : " + evt.getSource());}*/
+	}
+	
+	private void updateCellButtonId(PropertyChangeEvent evt) {
+		Cell cell = (Cell) evt.getSource();
+		Button button = getButtonAt(cell);
+		String btnId = button.getId();
+		if (evt.getNewValue() == null) {
+			btnId = btnId.substring(0, btnId.length()-5);
+		}
+		else {
+			btnId += "-busy";
+		}
+		button.setId(btnId);
+	}
+	
+	private void updateStuffToPleaseLabel(PropertyChangeEvent evt) {
+		String stuffToPleaseByPlayer = "";
+		for (Player player : theGame.getThePlayers()) {
+			stuffToPleaseByPlayer += "\n* "+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
+		}
+		eachplayerremainingfood.setText(stuffToPleaseByPlayer);
+	}
+	
+	private void updateOwnedCellsLabel(PropertyChangeEvent evt) {
+		String ownedCellsByPlayer = "";
+		for (Player player : theGame.getThePlayers()) {
+			ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + player.allControlledCells() + " cells.";
+		}
+		eachplayernbofdeployed.setText(ownedCellsByPlayer);
 	}
 	
 	private void updateRoundLabel() {
