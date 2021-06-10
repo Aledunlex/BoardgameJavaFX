@@ -32,7 +32,6 @@
                            <children>
                               <Label id="main-title" fx:id="gameProgressLabel" layoutX="-1.0" layoutY="3.0" prefHeight="70.0" prefWidth="416.0" stylesheets="@../css/Main.css" text="Game in progress" />
                               <Label layoutX="14.0" layoutY="73.0" text="Ongoing round :" />
-                              <Label layoutX="14.0" layoutY="90.0" text="Available cells :" />
                               <Label fx:id="winnerDisplay" layoutX="14.0" layoutY="225.0" />
                               <Label fx:id="currentRound" layoutX="130.0" layoutY="73.0" />
                            </children>
