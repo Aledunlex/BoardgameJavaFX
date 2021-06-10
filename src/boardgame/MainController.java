@@ -12,6 +12,7 @@ import boardgame.strategy.RandomStrat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -26,6 +27,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
 	private Game theGame;
+	private Node[][] gridPaneArray = null;
 	
 	@FXML
 	private Pane boardPane;
@@ -33,6 +35,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
 	@FXML
 	private Label gameProgressLabel, currentRound, availableCells, winnerDisplay;
+	@FXML
+	private Button startButton;
 	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
@@ -40,6 +44,11 @@ public class MainController implements Initializable, PropertyChangeListener {
 		int column = GridPane.getColumnIndex((Button) e.getSource());
 		clickedCell = theGame.getBoard().getCell(row, column);
 		updateCellStatus();
+	}
+	
+	@FXML
+	protected void startGame(ActionEvent e) {
+		theGame.play();
 	}
 	
 	private void updateCellStatus() {
@@ -61,7 +70,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 		System.out.println("appel du contrôleur");
 		initEcoGame();
 		initBoardView();
-		theGame.play();
 		updateWinnerLabel();
 	}
 	
@@ -73,12 +81,14 @@ public class MainController implements Initializable, PropertyChangeListener {
 	 * 
 	 */
 	private void initBoardView() {
+		if (buttonsContainer != null) {buttonsContainer = null; System.out.println("coucou");}
 		BoardGame board = theGame.getBoard();
 		int boardY = board.getWidth();
 		int boardX = board.getLength();
+		buttonsContainer = new GridPane();
+		boardPane.getChildren().add(buttonsContainer);
 		for (int y = 0; y < boardY; y++) {
-			buttonsContainer = new GridPane();
-			boardPane.getChildren().add(buttonsContainer);
+			
 			for (int x = 0; x < boardX; x++) {
 				Cell cell = board.getCell(y, x);
 				Button res = new Button(cell.display());
@@ -88,6 +98,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 				buttonsContainer.add(res,y,x);
 			}
 		}
+		System.out.println(this.buttonsContainer.getChildren());
+		initializeGridPaneArray();
 	}
 	
 	public void initEcoGame() {
@@ -115,8 +127,18 @@ public class MainController implements Initializable, PropertyChangeListener {
 		if (evt.getPropertyName() == "maxRounds") {
 			updateRoundLabel();
 		}
-		else if (evt.getPropertyName() == "maxRounds") {
-			
+		else if (evt.getPropertyName() == "currentUnit") {
+			Cell cell = (Cell) evt.getSource();
+			Button button = getButtonAt(cell);
+			String btnId = button.getId();
+			if (cell.getUnit() == null) {
+				btnId = btnId.substring(0, btnId.length() - 5);
+				button.setId(btnId);
+			}
+			else {
+				btnId += "busy";
+			}
+			System.out.println(btnId);
 		}
 		else {System.out.println("La source est : " + evt.getSource());}
 	}
@@ -134,5 +156,25 @@ public class MainController implements Initializable, PropertyChangeListener {
 		gameProgressLabel.setText("Game over!");
 		winnerDisplay.setText(theGame.displayWinner(theGame.getWinner()));
 	}
+	
+	private Button getButtonAt(Cell cell) {
+		int x = cell.getX();
+		int y = cell.getY();
+	    Button result = null;
+
+    	System.out.println("X C'EST " +x);
+    	System.out.println("Y C'EST " +y);
+	    
+    	result = (Button) this.gridPaneArray[x][y];
+    	
+	    return result;
+	}
+	
+    private void initializeGridPaneArray() {
+    	this.gridPaneArray = new Node[BOARD_WIDTH][BOARD_LENGHT];
+    	for(Node node : this.buttonsContainer.getChildren()) {
+    		this.gridPaneArray[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = node;
+    	}
+    }
 
 }

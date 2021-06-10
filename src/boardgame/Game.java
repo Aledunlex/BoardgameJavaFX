@@ -1,5 +1,6 @@
 package boardgame;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -277,4 +278,13 @@ public abstract class Game extends AbstractPropertyChangeable {
 		moveList.add(move);
 	}
 
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		super.addPropertyChangeListener(listener);
+		for (Cell cell: board.getAllCells())
+			cell.addPropertyChangeListener(listener);
+		for (Player player: thePlayers)
+			player.addPropertyChangeListener(listener);
+	}
+	
 }

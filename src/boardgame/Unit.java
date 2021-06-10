@@ -127,8 +127,9 @@ public abstract class Unit extends AbstractPropertyChangeable {
 	 * from the game
 	 **/
 	public void quit() {
-		this.cell.removeUnit();
+		Cell previous = this.cell;
 		setCell(null);
+		previous.removeUnit();
 		setGold(0);
 		setSize(0);
 		setTeam(null);

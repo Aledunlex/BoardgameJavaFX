@@ -1,6 +1,5 @@
 package boardgame;
 
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,6 +142,7 @@ public abstract class Player extends AbstractPropertyChangeable {
 		List<Cell> previousCells = controlledCells;
 		this.deployedUnits.add(unit);
 		this.controlledCells.add(unit.getCell());
+		unit.addPropertyChangeListener(this.getChangeSupport().getPropertyChangeListeners()[0]);
 		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, deployedUnits);
 		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, controlledCells);
 		return true;
