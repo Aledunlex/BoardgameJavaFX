@@ -13,8 +13,8 @@
    <children>
       <ButtonBar prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button fx:id="startButton" mnemonicParsing="false" onAction="#startGame" styleClass="menu-button" stylesheets="@../css/Main.css" text="StartGame" />
-          <Button fx:id="nextPlayer" mnemonicParsing="false" onAction="#nextPlayer" styleClass="menu-button" stylesheets="@../css/Main.css" text="WIP" />
+          <Button id="menu-button" fx:id="startButton" mnemonicParsing="false" onAction="#startGame" styleClass="menu-button" stylesheets="@../css/Main.css" text="StartGame" />
+          <Button id="menu-button" fx:id="nextPlayer" mnemonicParsing="false" onAction="#nextPlayer" styleClass="menu-button" stylesheets="@../css/Main.css" text="WIP" />
         </buttons>
       </ButtonBar>
       <SplitPane dividerPositions="0.5919732441471572" prefHeight="593.0" prefWidth="600.0">
