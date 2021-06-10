@@ -169,7 +169,7 @@ public abstract class Game {
 	}
 
 	/**
-	 * Returns the winner of the game. In case of tie returns an ArraList of all
+	 * Returns the winner of the game. In case of tie returns an ArrayList of all
 	 * players with the highest score
 	 *
 	 * @return player(s) with the higher score in an ArrayList
@@ -224,8 +224,9 @@ public abstract class Game {
 	 * higher score
 	 *
 	 * @param winner list of players with the higher score
+	 * @return the String of the winner Display
 	 */
-	public void displayWinner(ArrayList<Player> winner) {
+	public String displayWinner(ArrayList<Player> winner) {
 		String winnerDisplay;
 
 		if (winner.size() == 1) {
@@ -243,6 +244,8 @@ public abstract class Game {
 		System.out.println("\n\n" + "*".repeat(starCountDisplay) + "\n");
 		System.out.println(winnerDisplay);
 		System.out.println("\n\n" + "*".repeat(starCountDisplay));
+		
+		return winnerDisplay;
 	}
 
 	/**

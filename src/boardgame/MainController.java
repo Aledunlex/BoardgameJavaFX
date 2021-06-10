@@ -32,7 +32,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
 	@FXML
-	private Label currentRound, availableCells, winnerDisplay;
+	private Label gameProgressLabel, currentRound, availableCells, winnerDisplay;
 	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
@@ -62,6 +62,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		initEcoGame();
 		initBoardView();
 		theGame.play();
+		updateWinnerLabel();
 	}
 	
 	/** Les Cell sont chargées avec les éventuelles Unit placées dessus.
@@ -98,6 +99,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		game.addPlayer(philippe);
 		game.addPlayer(musclor);
 		theGame=game;
+		theGame.addPropertyChangeListener(this);
 	}
 	
 	private BoardGame createEcoBoard() {
@@ -110,8 +112,27 @@ public class MainController implements Initializable, PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
+		if (evt.getPropertyName() == "maxRounds") {
+			updateRoundLabel();
+		}
+		else if (evt.getPropertyName() == "maxRounds") {
+			
+		}
+		else {System.out.println("La source est : " + evt.getSource());}
+	}
+	
+	private void updateRoundLabel() {
+		int currRound = ROUNDS - theGame.maxRounds;
+		String roundLabelText = String.valueOf(currRound);
+		if (theGame.maxRounds == 0) { 
+			roundLabelText += " (final)";
+			}
+		currentRound.setText(roundLabelText);
+	}
+
+	private void updateWinnerLabel() {
+		gameProgressLabel.setText("Game over!");
+		winnerDisplay.setText(theGame.displayWinner(theGame.getWinner()));
 	}
 
 }
