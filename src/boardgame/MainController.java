@@ -36,7 +36,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Label gameProgressLabel, currentRound, availableCells, winnerDisplay;
 	@FXML
-	private Button startButton;
+	private Button startButton, nextPlayer;
 	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
@@ -59,11 +59,11 @@ public class MainController implements Initializable, PropertyChangeListener {
 		/*surroundingsLabel.setText("Is surrounded by : " + (determineSurroundings()?determineSurroundings()):"No one.");*/
 		bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
 	}
-	
-	
-	
-	private void determineSurroundings() {
-		;
+
+	@FXML
+	private void nextPlayer(ActionEvent e) {
+		if (theGame.isPaused())
+			theGame.setPaused(false);
 	}
 	
 	@Override
@@ -90,7 +90,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		for (int y = 0; y < boardY; y++) {
 			
 			for (int x = 0; x < boardX; x++) {
-				Cell cell = board.getCell(y, x);
+				Cell cell = board.getCell(x, y);
 				Button res = new Button(cell.display());
 				res.setId("button-"+cell.getId());
 				res.getStylesheets().add(getClass().getResource("/resources/css/Main.css").toExternalForm());
@@ -148,7 +148,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		String roundLabelText = String.valueOf(currRound);
 		if (theGame.maxRounds == 0) { 
 			roundLabelText += " (final)";
-			}
+		}
 		currentRound.setText(roundLabelText);
 	}
 

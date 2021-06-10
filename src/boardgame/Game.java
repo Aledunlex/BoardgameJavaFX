@@ -22,6 +22,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	protected BoardGame board;
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
+	protected boolean paused;
 
 	/**
 	 * Create a game with a given board and corresponding set of moves
@@ -33,11 +34,12 @@ public abstract class Game extends AbstractPropertyChangeable {
 	public Game(BoardGame board, int maxRounds) {
 		this.board = board;
 		this.maxRounds = maxRounds;
-		this.thePlayers = new ArrayList<Player>();
-		this.theMoves = new ArrayList<Move>();
-		this.mandatoryMoves = new ArrayList<Move>();
-		this.addMoveSet();
-		this.addMandatoryMoves();
+		thePlayers = new ArrayList<Player>();
+		theMoves = new ArrayList<Move>();
+		mandatoryMoves = new ArrayList<Move>();
+		addMoveSet();
+		addMandatoryMoves();
+		paused = true;
 	}
 
 	/**
@@ -72,7 +74,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 * @param p the player to add to the game
 	 **/
 	public void addPlayer(Player p) {
-		this.thePlayers.add(p);
+		thePlayers.add(p);
 		p.setPlayingGame(this);
 	}
 
@@ -103,7 +105,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 		ArrayList<Cell> cell = this.board.getAllCells();
 		for (Cell c : cell) {
 			if (c.getResource() != null) {
-				for (Player p : this.thePlayers) {
+				for (Player p : thePlayers) {
 					if (!p.allResources().containsKey(c.getResource().getId())) {
 						p.allResources().put(c.getResource().getId(), new ArrayList<Resource>());
 					}
@@ -117,9 +119,10 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 * Player, if there are remaining available Cells
 	 */
 	public void playOneRound() {
-		this.board.displayBoard();
+		board.displayBoard();
 		for (Player p : thePlayers) {
 			if (!this.isFinished()) {
+				while (paused) {;}
 				System.out.println("__________________________________\n\n");
 				System.out.println("#### BEGINNING " + p.toString().toUpperCase() + "'S TURN ####\nIt's " + p.toString()
 						+ "'s turn !");
@@ -148,6 +151,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 		for (Move move : this.mandatoryMoves) {
 			move.execute(player);
 		}
+		paused = true;
 	}
 
 	/**
@@ -285,6 +289,20 @@ public abstract class Game extends AbstractPropertyChangeable {
 			cell.addPropertyChangeListener(listener);
 		for (Player player: thePlayers)
 			player.addPropertyChangeListener(listener);
+	}
+	
+	/**
+	 * @return is paused or not
+	 */
+	public boolean isPaused() {
+		return paused;
+	}
+
+	/**
+	 * @param paused status to set
+	 */
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 	
 }
