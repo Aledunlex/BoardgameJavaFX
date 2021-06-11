@@ -5,9 +5,12 @@ import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import boardgame.fabrices.FabriceArmy;
 import boardgame.fabrices.FabriceEcolo;
 import boardgame.game.GameEco;
+import boardgame.game.GameWar;
 import boardgame.players.EcoPlayer;
+import boardgame.players.WarPlayer;
 import boardgame.strategy.RandomStrat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,9 +23,9 @@ import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable, PropertyChangeListener {
 	
-	private static int ROUNDS = 15;
-	private static int BOARD_WIDTH = 9;
-	private static int BOARD_LENGHT = 9;
+	private static int ROUNDS = 20;
+	private static int BOARD_WIDTH = 10;
+	private static int BOARD_LENGHT = 10;
 
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
@@ -40,6 +43,16 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Button startButton, nextPlayer;
 	
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("appel du contrôleur");
+		Player player = new EcoPlayer("any", new RandomStrat()); /* player sera utilise pour determiner le type de jeu a lancer... pas tres opti mais c'est du bricolage */
+		initGame(player);
+		initBoardView();
+	}
+	
+	
 	@FXML
 	protected void handleCellClicked(ActionEvent e) {
 		int row = GridPane.getRowIndex((Button) e.getSource());
@@ -49,6 +62,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	@FXML
+	/* appelé par le bouton */
 	protected void startGame(ActionEvent e) {
 		theGame.play();
 		updateWinnerLabel();
@@ -64,7 +78,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 
 	@FXML
 	/**
-	 * Pas aussi simple
+	 * Pas aussi simple, aucun effet
 	 * @param e when player clicks "unpause" button, currently non functionnal
 	 */
 	private void nextPlayer(ActionEvent e) {
@@ -72,14 +86,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 			theGame.setPaused(false);
 	}
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("appel du contrôleur");
-		initEcoGame();
-		initBoardView();
-	}
-	
-	/** Les Cell sont chargées avec les éventuelles Unit placées dessus.
+	/** Les Cell sont chargées et transformées en boutons sur l'interface.
 	 * Les informations sont (a priori) modifiées quand une Unit y est déployée ou en est retirée (ou traitorousUnit()).
 	 * Pour chaque tuile du plateau, on va créer un bouton; chaque bouton forme le plateau sur l'interface. 
 	 * De plus, chaque bouton est cliquable et renvoie sur une autre fenêtre qui donne les informations 
@@ -104,26 +111,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 		}
 		initializeGridPaneArray();
 	}
-	
-	public void initEcoGame() {
-		Strategy strat = new RandomStrat();
-		BoardGame board = createEcoBoard();
-		GameEco game = new GameEco(board, ROUNDS);
-		EcoPlayer philippe = new EcoPlayer("Gandhi", strat);
-		EcoPlayer musclor = new EcoPlayer("Odette", strat);
-		game.addPlayer(philippe);
-		game.addPlayer(musclor);
-		theGame=game;
-		theGame.addPropertyChangeListener(this);
-	}
-	
-	private BoardGame createEcoBoard() {
-		BoardGame board = new BoardGame(BOARD_WIDTH, BOARD_LENGHT, new FabriceEcolo());
-		while (board.getAvailableCells().size() < 5) {
-			board = createEcoBoard();
-		}
-		return board;
-	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -132,15 +119,13 @@ public class MainController implements Initializable, PropertyChangeListener {
 		}
 		else if (evt.getPropertyName() == "currentUnit") {
 			updateCellButtonId(evt);
+			updateOwnedCellsLabel(evt);
 		}
+		/* la valeur affichée est parfois incorrecte (+/- 1) */
 		else if (evt.getPropertyName() == "stuffToPleaseUnit") {
 			updateStuffToPleaseLabel(evt);
 		}
-		
-		else if (evt.getPropertyName() == "cell") {
-			updateOwnedCellsLabel(evt);
-		}
-		/* les autres evt ne marchent pas, jsp pourquoi */
+		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
 		else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
@@ -190,6 +175,9 @@ public class MainController implements Initializable, PropertyChangeListener {
 		winnerDisplay.setText(theGame.displayWinner(theGame.getWinner()));
 	}
 	
+	/* les deux methodes ci dessous servent a recuperer le bouton
+	 * qui a les coordonnees de la cell d'interet
+	 */
 	private Button getButtonAt(Cell cell) {
 		int x = cell.getX();
 		int y = cell.getY();
@@ -204,5 +192,47 @@ public class MainController implements Initializable, PropertyChangeListener {
     		this.gridPaneArray[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = node;
     	}
     }
+    
+    /* pas tres classe mais c'est temporaire, dans l'ideal plus tard on pourra cliquer 
+     * sur un bouton pour choisir le type de jeu qu'on veut et entrer dans une barre
+     * d'input les noms des joueurs a ajouter
+     */
+	private void initGame(Player player) {
+		Strategy strat = new RandomStrat();
+		Player player1;
+		Player player2;
+		if (player instanceof WarPlayer) {
+			player1 = new WarPlayer("Arnold", strat);
+			player2 = new WarPlayer("Musclor", strat);
+		}
+		else if (player instanceof EcoPlayer) {
+			player1 = new EcoPlayer("Gandhi", strat);
+			player2 = new EcoPlayer("Odette", strat);
+		}
+		else {player1 = null; player2 = null;}
+		BoardGame board = createBoard(player);
+		Game game;
+		if (player1 instanceof WarPlayer) {game = new GameWar(board, ROUNDS); }
+		else if (player1 instanceof EcoPlayer) {game = new GameEco(board, ROUNDS);}
+		else {game = null;}
+		System.out.println(player1);
+		game.addPlayer(player1);
+		game.addPlayer(player2);
+		theGame=game;
+		theGame.addPropertyChangeListener(this);
+	}
+	
+	private BoardGame createBoard(Player player) {
+		BoardGame board;
+		Fabrice fabrice;
+		if (player instanceof WarPlayer) {fabrice = new FabriceArmy();}
+		else if (player instanceof EcoPlayer) {fabrice = new FabriceEcolo();}
+		else {fabrice = null;}
+		board = new BoardGame(BOARD_WIDTH, BOARD_LENGHT, fabrice);
+		while (board.getAvailableCells().size() < 5) {
+			board = createBoard(player);
+		}
+		return board;
+	}
 
 }
