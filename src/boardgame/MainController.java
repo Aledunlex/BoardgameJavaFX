@@ -21,8 +21,8 @@ import javafx.scene.layout.Pane;
 public class MainController implements Initializable, PropertyChangeListener {
 	
 	private static int ROUNDS = 15;
-	private static int BOARD_WIDTH = 10;
-	private static int BOARD_LENGHT = 10;
+	private static int BOARD_WIDTH = 9;
+	private static int BOARD_LENGHT = 9;
 
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
@@ -137,11 +137,12 @@ public class MainController implements Initializable, PropertyChangeListener {
 			updateStuffToPleaseLabel(evt);
 		}
 		/* en dessous plus rien ne marche jsp pourquoi */
-		else if (evt.getPropertyName() == "controlledCells") {
+		else if (evt.getPropertyName() == "cell") {
 			System.out.println("couco#######################################################################################u");
 			updateOwnedCellsLabel(evt);
 		}
-		/*else {System.out.println("La source est : " + evt.getSource());}*/
+		/* pour debug */
+		else {System.out.println("                             La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {
@@ -168,7 +169,13 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private void updateOwnedCellsLabel(PropertyChangeEvent evt) {
 		String ownedCellsByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
-			ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + player.allControlledCells() + " cells.";
+			if(player.allControlledCells().size()>0) {
+				ownedCellsByPlayer += "\n* "+ player.toString() + " owns ";
+				for(Cell cell: player.allControlledCells()) {
+					ownedCellsByPlayer += "\n-- " + cell.toString();
+				} 
+				ownedCellsByPlayer += " cells.";
+			}
 		}
 		eachplayernbofdeployed.setText(ownedCellsByPlayer);
 	}
