@@ -136,13 +136,13 @@ public class MainController implements Initializable, PropertyChangeListener {
 		else if (evt.getPropertyName() == "stuffToPleaseUnit") {
 			updateStuffToPleaseLabel(evt);
 		}
-		/* en dessous plus rien ne marche jsp pourquoi */
+		
 		else if (evt.getPropertyName() == "cell") {
-			System.out.println("couco#######################################################################################u");
 			updateOwnedCellsLabel(evt);
 		}
+		/* les autres evt ne marchent pas, jsp pourquoi */
 		/* pour debug */
-		else {System.out.println("                             La source est : ".toUpperCase() + evt.getPropertyName());}
+		else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {
@@ -170,11 +170,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		String ownedCellsByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
 			if(player.allControlledCells().size()>0) {
-				ownedCellsByPlayer += "\n* "+ player.toString() + " owns ";
-				for(Cell cell: player.allControlledCells()) {
-					ownedCellsByPlayer += "\n-- " + cell.toString();
-				} 
-				ownedCellsByPlayer += " cells.";
+				ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + player.allControlledCells().size() + " cells.";
 			}
 		}
 		eachplayernbofdeployed.setText(ownedCellsByPlayer);

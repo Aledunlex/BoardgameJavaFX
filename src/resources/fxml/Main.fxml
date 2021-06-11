@@ -13,8 +13,8 @@
    <children>
       <ButtonBar prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button id="menu-button" fx:id="startButton" mnemonicParsing="false" onAction="#startGame" styleClass="menu-button" stylesheets="@../css/Main.css" text="StartGame" />
-          <Button id="menu-button" fx:id="nextPlayer" mnemonicParsing="false" onAction="#nextPlayer" styleClass="menu-button" stylesheets="@../css/Main.css" text="WIP" />
+          <Button id="menu-button" fx:id="startButton" mnemonicParsing="false" onAction="#startGame" styleClass="menu-button" stylesheets="@../css/Main.css" text="Start Game" />
+          <Button id="menu-button" fx:id="nextPlayer" mnemonicParsing="false" onAction="#nextPlayer" styleClass="menu-button" stylesheets="@../css/Main.css" text="(TODO) Next Player" />
         </buttons>
       </ButtonBar>
       <SplitPane dividerPositions="0.5919732441471572" prefHeight="593.0" prefWidth="600.0">
@@ -52,10 +52,10 @@
                                             </content>
                                           </ScrollPane>
                                           <Label id="sub-title" fx:id="cellLabel" LayoutX="4.0" layoutY="49.0" stylesheets="@../css/Main.css" />
-                                          <Label fx:id="busyLabel" layoutX="24.0" layoutY="77.0" />
-                                          <Label fx:id="usableLabel" layoutX="24.0" layoutY="94.0" />
-                                          <Label fx:id="surroundingsLabel" layoutX="24.0" layoutY="111.0" />
-                                          <Label fx:id="bonusLabel" layoutX="24.0" layoutY="128.0" />
+                                          <Label fx:id="busyLabel" layoutX="14.0" layoutY="77.0" />
+                                          <Label fx:id="usableLabel" layoutX="14.0" layoutY="94.0" />
+                                          <Label fx:id="surroundingsLabel" layoutX="14.0" layoutY="111.0" />
+                                          <Label fx:id="bonusLabel" layoutX="14.0" layoutY="128.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -69,9 +69,9 @@
                                                 </AnchorPane>
                                              </content>
                                           </ScrollPane>
-                                          <Label fx:id="eachplayernbofdeployed" layoutX="24.0" layoutY="83.0" />
-                                          <Label fx:id="eachplayerremainingfood" layoutX="24.0" layoutY="100.0" />
-                                          <Label fx:id="eachplayerunitsownedgold" layoutX="24.0" layoutY="117.0" />
+                                          <Label fx:id="eachplayernbofdeployed" layoutX="14.0" layoutY="30.0" />
+                                          <Label fx:id="eachplayerremainingfood" layoutX="14.0" layoutY="130.0" />
+                                          <Label fx:id="eachplayerunitsownedgold" layoutX="14.0" layoutY="230.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>

@@ -39,7 +39,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 		mandatoryMoves = new ArrayList<Move>();
 		addMoveSet();
 		addMandatoryMoves();
-		paused = true;
+		paused = false;
 	}
 
 	/**
@@ -122,7 +122,6 @@ public abstract class Game extends AbstractPropertyChangeable {
 		board.displayBoard();
 		for (Player p : thePlayers) {
 			if (!this.isFinished()) {
-				/*if (paused) {Timer.*/
 				System.out.println("__________________________________\n\n");
 				System.out.println("#### BEGINNING " + p.toString().toUpperCase() + "'S TURN ####\nIt's " + p.toString()
 						+ "'s turn !");
