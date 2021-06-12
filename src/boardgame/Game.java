@@ -15,7 +15,7 @@ import boardgame.util.AbstractPropertyChangeable;
  * starting a game.
  */
 
-public abstract class Game extends AbstractPropertyChangeable {
+public abstract class Game extends AbstractPropertyChangeable implements Runnable {
 
 	protected List<Player> thePlayers;
 	protected List<Move> theMoves;
@@ -23,6 +23,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
 	protected boolean paused;
+	//protected Thread thread = new Thread("Game");
 
 	/**
 	 * Create a game with a given board and corresponding set of moves
@@ -40,6 +41,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 		addMoveSet();
 		addMandatoryMoves();
 		paused = false;
+		//thread.start();
 	}
 
 	/**
@@ -122,6 +124,15 @@ public abstract class Game extends AbstractPropertyChangeable {
 		board.displayBoard();
 		for (Player p : thePlayers) {
 			if (!this.isFinished()) {
+				/*
+				while (paused) {try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					Thread.currentThread().interrupt();
+					break;
+				}}
+				*/
 				System.out.println("__________________________________\n\n");
 				System.out.println("#### BEGINNING " + p.toString().toUpperCase() + "'S TURN ####\nIt's " + p.toString()
 						+ "'s turn !");
@@ -209,7 +220,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 */
 	public void play() {
 		this.initPlayerRes();
-		int round = 1;
+		int round = 1; 
 		while (!this.isFinished()) {
 			System.out.println("__________________________________\n\n");
 			System.out.println("###################");

@@ -14,9 +14,9 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			System.out.println("# Beginning of eco main #");
+			System.out.println("# Beginning of war main #");
 			Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/Main.fxml"));
-			primaryStage.setTitle("Boardgame - Eco Game - Random Strategy");
+			primaryStage.setTitle("Boardgame - War Game - Random Strategy");
 
 			Scene mainScreenScene = new Scene(root);
 			
@@ -26,7 +26,7 @@ public class MainApp extends Application {
 			primaryStage.centerOnScreen();
 
 
-			System.out.println("\n # End of eco main #");
+			System.out.println("\n # End of war main #");
 
 		} catch(Exception e) {
 			e.printStackTrace();

@@ -47,7 +47,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("appel du contrôleur");
-		Player player = new EcoPlayer("any", new RandomStrat()); /* player sera utilise pour determiner le type de jeu a lancer... pas tres opti mais c'est du bricolage */
+		Player player = new WarPlayer("any", new RandomStrat()); /* player sera utilise pour determiner le type de jeu a lancer... pas tres opti mais c'est du bricolage */
 		initGame(player);
 		initBoardView();
 	}
