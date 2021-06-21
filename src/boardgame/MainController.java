@@ -11,6 +11,7 @@ import boardgame.game.GameEco;
 import boardgame.game.GameWar;
 import boardgame.players.EcoPlayer;
 import boardgame.players.WarPlayer;
+import boardgame.strategy.NoConsoleInputStrat;
 import boardgame.strategy.RandomStrat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +43,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private Label eachplayernbofdeployed, eachplayerremainingfood, eachplayerunitsownedgold;
 	@FXML
 	private Button startButton;
+	@FXML
+	private Label warningLabel, messageLabel, availableInputLabel, playerLabel;
 	
 	
 	@Override
@@ -121,9 +124,22 @@ public class MainController implements Initializable, PropertyChangeListener {
 		if (evt.getPropertyName() == "currentUnit"  || evt.getPropertyName() == "controlledCells") {
 			updateOwnedCellsLabel(evt);
 		}
+		if (evt.getPropertyName() == "currentPlayer")
+			updateCurrentPlayerLabel(evt);
+		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection")
+			updateAllInputLabels(evt);
 		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
 		//else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
+	}
+	
+	private void updateCurrentPlayerLabel(PropertyChangeEvent evt) {
+		String display = "Currently playing : ";
+		playerLabel.setText(display + theGame.getCurrentPlayer().getName());
+	}
+	
+	private void updateAllInputLabels(PropertyChangeEvent evt) {
+		
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {
@@ -151,7 +167,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 		String ownedCellsByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
 			if(player.allControlledCells() != null) {
-				ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + player.allControlledCells().size() + " cells.";
+				int owned = player.allControlledCells().size();
+				ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + (owned==0?"no":owned) + " cell" + (owned==1?"":"s") + ".";
 			}
 		}
 		eachplayernbofdeployed.setText(ownedCellsByPlayer);
@@ -194,15 +211,17 @@ public class MainController implements Initializable, PropertyChangeListener {
      * d'input les noms des joueurs a ajouter
      */
 	private void initGame(Player player) {
-		Strategy strat = new RandomStrat();
+		RandomStrat strat = new RandomStrat();
+		NoConsoleInputStrat inputStrat = new NoConsoleInputStrat();
+		inputStrat.addPropertyChangeListener(this);
 		Player player1;
 		Player player2;
 		if (player instanceof WarPlayer) {
-			player1 = new WarPlayer("Arnold", strat);
+			player1 = new WarPlayer("Arnold", inputStrat);
 			player2 = new WarPlayer("Musclor", strat);
 		}
 		else if (player instanceof EcoPlayer) {
-			player1 = new EcoPlayer("Gandhi", strat);
+			player1 = new EcoPlayer("Gandhi", inputStrat);
 			player2 = new EcoPlayer("Odette", strat);
 		}
 		else {player1 = null; player2 = null;}

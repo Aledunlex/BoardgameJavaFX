@@ -15,7 +15,7 @@ import boardgame.util.AbstractPropertyChangeable;
  * starting a game.
  */
 
-public abstract class Game extends AbstractPropertyChangeable implements Runnable {
+public abstract class Game extends AbstractPropertyChangeable {
 
 	protected List<Player> thePlayers;
 	protected Player currentPlayer;
@@ -23,7 +23,6 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 	protected BoardGame board;
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
-	//protected Thread thread = new Thread("Game");
 
 	/**
 	 * Create a game with a given board and corresponding set of moves
@@ -40,7 +39,6 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 		mandatoryMoves = new ArrayList<Move>();
 		addMoveSet();
 		addMandatoryMoves();
-		//thread.start();
 	}
 
 	/**
@@ -298,7 +296,13 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 	}
 	
 	public void setCurrentPlayer(Player player) {
+		Player prev = currentPlayer;
 		currentPlayer = player;
+		propertyChangeSupport.firePropertyChange("currentPlayer", prev, player);
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 }
