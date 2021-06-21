@@ -18,11 +18,11 @@ import boardgame.util.AbstractPropertyChangeable;
 public abstract class Game extends AbstractPropertyChangeable implements Runnable {
 
 	protected List<Player> thePlayers;
+	protected Player currentPlayer;
 	protected List<Move> theMoves;
 	protected BoardGame board;
 	protected int maxRounds;
 	protected List<Move> mandatoryMoves;
-	protected boolean paused;
 	//protected Thread thread = new Thread("Game");
 
 	/**
@@ -40,7 +40,6 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 		mandatoryMoves = new ArrayList<Move>();
 		addMoveSet();
 		addMandatoryMoves();
-		paused = false;
 		//thread.start();
 	}
 
@@ -103,7 +102,7 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 	 * empty list for each resource type link to the id of the resource. Called at
 	 * the start of this.play() method, after the Players were added to the game.
 	 */
-	private void initPlayerRes() {
+	public void initPlayerRes() {
 		ArrayList<Cell> cell = this.board.getAllCells();
 		for (Cell c : cell) {
 			if (c.getResource() != null) {
@@ -122,27 +121,19 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 	 */
 	public void playOneRound() {
 		board.displayBoard();
-		for (Player p : thePlayers) {
+		for (int i = 0; i < thePlayers.size(); i++) {
 			if (!this.isFinished()) {
-				/*
-				while (paused) {try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					Thread.currentThread().interrupt();
-					break;
-				}}
-				*/
+				nextPlayer();
 				System.out.println("__________________________________\n\n");
-				System.out.println("#### BEGINNING " + p.toString().toUpperCase() + "'S TURN ####\nIt's " + p.toString()
+				System.out.println("#### BEGINNING " + currentPlayer.toString().toUpperCase() + "'S TURN ####\nIt's " + currentPlayer.toString()
 						+ "'s turn !");
-				if (!p.allControlledCells().isEmpty()) {
+				if (!currentPlayer.allControlledCells().isEmpty()) {
 					System.out.println(" * List of controlled cells : ");
-					for (Cell cell : p.allControlledCells())
+					for (Cell cell : currentPlayer.allControlledCells())
 						System.out.println(" *  → " + cell.toString());
 				}
-				System.out.println("\n * Owned necessities : " + p.getNeedQty() + p.needToString(p.getNeedQty()) + ".");
-				playPlayerRound(p);
+				System.out.println("\n * Owned necessities : " + currentPlayer.getNeedQty() + currentPlayer.needToString(currentPlayer.getNeedQty()) + ".");
+				playPlayerRound(currentPlayer);
 			}
 		}
 		maxRounds--;
@@ -161,7 +152,6 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 		for (Move move : this.mandatoryMoves) {
 			move.execute(player);
 		}
-		paused = true;
 	}
 
 	/**
@@ -217,7 +207,7 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 	/**
 	 * Plays a game with all players until it is finished after initializing their
 	 * Resource inventory
-	 */
+	 
 	public void play() {
 		this.initPlayerRes();
 		int round = 1; 
@@ -230,7 +220,7 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 			this.playOneRound();
 		}
 		this.displayEnd();
-	}
+	}*/
 
 	/**
 	 * Displays the winner of the game, in case of tie display all players with the
@@ -301,18 +291,14 @@ public abstract class Game extends AbstractPropertyChangeable implements Runnabl
 			player.addPropertyChangeListener(listener);
 	}
 	
-	/**
-	 * @return is paused or not
-	 */
-	public boolean isPaused() {
-		return paused;
+	public void nextPlayer() {
+		int currIndex = thePlayers.indexOf(currentPlayer);
+		int nextIndex = ((currIndex==thePlayers.size()-1||currentPlayer==null)?0:currIndex+1);
+		setCurrentPlayer(thePlayers.get(nextIndex));
 	}
-
-	/**
-	 * @param paused status to set
-	 */
-	public void setPaused(boolean paused) {
-		this.paused = paused;
+	
+	public void setCurrentPlayer(Player player) {
+		currentPlayer = player;
 	}
 	
 }

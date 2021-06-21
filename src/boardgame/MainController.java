@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable, PropertyChangeListener {
 	
-	private static int ROUNDS = 20;
+	private static int ROUNDS = 10;
 	private static int BOARD_WIDTH = 10;
 	private static int BOARD_LENGHT = 10;
 
@@ -41,7 +41,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Label eachplayernbofdeployed, eachplayerremainingfood, eachplayerunitsownedgold;
 	@FXML
-	private Button startButton, nextPlayer;
+	private Button startButton;
 	
 	
 	@Override
@@ -62,10 +62,15 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	@FXML
-	/* appelé par le bouton */
+	/* appelé par le bouton start game */
 	protected void startGame(ActionEvent e) {
-		theGame.play();
-		updateWinnerLabel();
+		if (!theGame.isFinished()) {
+			theGame.playOneRound();
+			if (theGame.isFinished()) {
+				theGame.displayEnd();
+				updateWinnerLabel();
+			}
+		}
 	}
 	
 	private void updateCellStatus() {
@@ -74,16 +79,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 		usableLabel.setText("Is usable : " + (clickedCell.usableInThisGame()?"Yes, it produces "+clickedCell.getResource().display():"No")+".");
 		/*surroundingsLabel.setText("Is surrounded by : " + (determineSurroundings()?determineSurroundings()):"No one.");*/
 		bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
-	}
-
-	@FXML
-	/**
-	 * Pas aussi simple, aucun effet
-	 * @param e when player clicks "unpause" button, currently non functionnal
-	 */
-	private void nextPlayer(ActionEvent e) {
-		if (theGame.isPaused())
-			theGame.setPaused(false);
 	}
 	
 	/** Les Cell sont chargées et transformées en boutons sur l'interface.
@@ -154,7 +149,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private void updateOwnedCellsLabel(PropertyChangeEvent evt) {
 		String ownedCellsByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
-			if(player.allControlledCells().size()>0) {
+			if(player.allControlledCells() != null) {
 				ownedCellsByPlayer += "\n* "+ player.toString() + " owns " + player.allControlledCells().size() + " cells.";
 			}
 		}
@@ -220,6 +215,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		game.addPlayer(player2);
 		theGame=game;
 		theGame.addPropertyChangeListener(this);
+		theGame.initPlayerRes();
 	}
 	
 	private BoardGame createBoard(Player player) {

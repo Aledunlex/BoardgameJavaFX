@@ -1,6 +1,6 @@
 # BoardGameToJavaFX
 
-Vidéos Youtube à regarder pour piger un minimum
+Videos Youtube à regarder pour piger un minimum
 
 - [5 cours d'environ 1h](https://www.youtube.com/watch?v=02SFViTyX4A&list=PLlxQJeQRaKDSlg_sOFKqBHvFsox2ZVWbs) mais le mec est sympa 
 
