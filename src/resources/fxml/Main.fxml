@@ -76,7 +76,7 @@
       </VBox>
       <Pane prefHeight="710.0" prefWidth="432.0">
          <children>
-            <TextField layoutX="188.0" layoutY="322.0" prefHeight="25.0" prefWidth="37.0" />
+            <TextField fx:id="inputField" layoutX="188.0" layoutY="322.0" prefHeight="25.0" prefWidth="37.0" />
             <Label id="sub-title" fx:id="playerLabel" layoutX="69.0" layoutY="48.0" text="Current Player : none" stylesheets="@../css/Main.css"/>
             <Label fx:id="warningLabel" layoutX="40.0" layoutY="65.0" />
             <Label fx:id="messageLabel" layoutX="40.0" layoutY="96.0" text="Message Label" />

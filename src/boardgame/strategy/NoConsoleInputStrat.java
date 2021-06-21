@@ -25,7 +25,8 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	private String warningText = "";
 	private String messageText = "";
 	private String availableSelection = "";
-
+	private String inputValue = "0";
+	
 	public NoConsoleInputStrat() {
 	}
 
@@ -99,24 +100,20 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		boolean saisieCorrect = false;
 		int value = 0;
 
-		while (!saisieCorrect) {
+		if (!saisieCorrect) {
 			setMessageText(name + " : ");
-			try {
-				value = Input.readInt();
+			value = Integer.valueOf(inputValue);
 
-				if (value < min) {
-					setWarningText("The input is too small, it must be greater than or equal to " + min);
-				}
+			if (value < min) {
+				setWarningText("The input is too small, it must be greater than or equal to " + min);
+			}
 
-				else if (value >= max) {
-					setWarningText("The input is too large, it must be less than " + max);
-				}
+			else if (value >= max) {
+				setWarningText("The input is too large, it must be less than " + max);
+			}
 
-				else {
-					saisieCorrect = true;
-				}
-			} catch (java.io.IOException e) {
-				setWarningText("You only need to enter numbers !");
+			else {
+				saisieCorrect = true;
 			}
 		}
 		return value;
@@ -188,6 +185,11 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		this.availableSelection = availableSelection;
 		propertyChangeSupport.firePropertyChange("availableSelection", prev, availableSelection);
 	}
+	
+	public void setInputValue(String inputValue) {
+		this.inputValue = inputValue;
+	}
+
 	/*
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		super.addPropertyChangeListener(listener);

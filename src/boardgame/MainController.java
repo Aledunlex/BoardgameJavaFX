@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -45,6 +46,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private Button startButton;
 	@FXML
 	private Label warningLabel, messageLabel, availableInputLabel, playerLabel;
+	@FXML
+	private TextField inputField;
 	
 	
 	@Override
@@ -139,7 +142,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	private void updateAllInputLabels(PropertyChangeEvent evt) {
-		
+		NoConsoleInputStrat strat = (NoConsoleInputStrat) theGame.getCurrentPlayer().getStrategy();
+		warningLabel.setText(strat.getWarningText());
+		messageLabel.setText(strat.getMessageText());
+		availableInputLabel.setText(strat.getAvailableSelection());
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {
