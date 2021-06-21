@@ -112,17 +112,18 @@ public class MainController implements Initializable, PropertyChangeListener {
 		if (evt.getPropertyName() == "maxRounds") {
 			updateRoundLabel();
 		}
-		else if (evt.getPropertyName() == "currentUnit") {
+		if (evt.getPropertyName() == "currentUnit") {
 			updateCellButtonId(evt);
-			updateOwnedCellsLabel(evt);
 		}
-		/* la valeur affichée est parfois incorrecte (+/- 1) */
-		else if (evt.getPropertyName() == "stuffToPleaseUnit") {
+		if (evt.getPropertyName() == "stuffToPleaseUnit") {
 			updateStuffToPleaseLabel(evt);
+		}
+		if (evt.getPropertyName() == "currentUnit"  || evt.getPropertyName() == "controlledCells") {
+			updateOwnedCellsLabel(evt);
 		}
 		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
-		else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
+		//else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {

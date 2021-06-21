@@ -86,8 +86,9 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @param value to be set
 	 */
 	public void setNeedQty(int value) {
-		propertyChangeSupport.firePropertyChange("stuffToPleaseUnit", this.stuffToPleaseUnit, value);
+		int prev = this.stuffToPleaseUnit;
 		this.stuffToPleaseUnit = value;
+		propertyChangeSupport.firePropertyChange("stuffToPleaseUnit", prev, value);
 	}
 
 	/**
@@ -125,8 +126,9 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @param score to be set
 	 */
 	public void setScore(int score) {
-		propertyChangeSupport.firePropertyChange("score", this.score, score);
+		int prev = this.score;
 		this.score = score;
+		propertyChangeSupport.firePropertyChange("score", prev, score);
 	}
 
 	/**
@@ -143,8 +145,8 @@ public abstract class Player extends AbstractPropertyChangeable {
 		this.deployedUnits.add(unit);
 		this.controlledCells.add(unit.getCell());
 		unit.addPropertyChangeListener(this.getChangeSupport().getPropertyChangeListeners()[0]);
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, controlledCells);
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
 		return true;
 	}
 
@@ -170,8 +172,26 @@ public abstract class Player extends AbstractPropertyChangeable {
 		this.controlledCells.remove(unit.getCell());
 		this.deployedUnits.remove(unit);
 		unit.quit();
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, controlledCells);
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
+	}
+	
+	/**
+	 * Removes a unit from the player's list of owned units, its cell from the
+	 * player's list of controlled cells, then calls the quit() method it To be used
+	 * when a player can no longer satisfy the needs of this unit
+	 *
+	 * @param unit to be removed from this player's list of units
+	 */
+	public void loseAllUnits() {
+		List<Unit> previousUnits = deployedUnits;
+		List<Cell> previousCells = controlledCells;
+		for (Unit unit : deployedUnits)
+			unit.quit();
+		this.controlledCells = new ArrayList<Cell>();
+		this.deployedUnits = new ArrayList<Unit>();
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
 	}
 
 	/**

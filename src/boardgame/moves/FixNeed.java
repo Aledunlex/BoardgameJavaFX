@@ -164,12 +164,7 @@ public class FixNeed extends MoveAdapter {
 	 * @param board  on which the game takes place
 	 */
 	public void everybodyIsGone(Player player, BoardGame board) {
-		for (Unit unit : player.allDeployedUnits()) {
-			board.getAvailableCells().add(unit.getCell());
-			unit.quit();
-		}
-		player.allDeployedUnits().clear();
-		player.allControlledCells().clear();
+		player.loseAllUnits();
 		rqdNeed = 0;
 		System.out.println(player.toString() + " just lost all their units!");
 	}
