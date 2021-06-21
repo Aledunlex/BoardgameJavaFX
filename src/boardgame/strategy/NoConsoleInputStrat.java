@@ -25,7 +25,7 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	private String warningText = "";
 	private String messageText = "";
 	private String availableSelection = "";
-	private String inputValue = "0";
+	private int inputValue;
 	
 	public NoConsoleInputStrat() {
 	}
@@ -102,14 +102,16 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 
 		if (!saisieCorrect) {
 			setMessageText(name + " : ");
-			value = Integer.valueOf(inputValue);
+			value = inputValue;
 
 			if (value < min) {
 				setWarningText("The input is too small, it must be greater than or equal to " + min);
+				checkCorrectInput(min, max, name);
 			}
 
 			else if (value >= max) {
 				setWarningText("The input is too large, it must be less than " + max);
+				checkCorrectInput(min, max, name);
 			}
 
 			else {
@@ -186,7 +188,7 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		propertyChangeSupport.firePropertyChange("availableSelection", prev, availableSelection);
 	}
 	
-	public void setInputValue(String inputValue) {
+	public void setInputValue(int inputValue) {
 		this.inputValue = inputValue;
 	}
 

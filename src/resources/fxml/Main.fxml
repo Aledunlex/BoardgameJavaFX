@@ -77,8 +77,9 @@
       <Pane prefHeight="710.0" prefWidth="432.0">
          <children>
             <TextField fx:id="inputField" layoutX="188.0" layoutY="322.0" prefHeight="25.0" prefWidth="37.0" />
+            <Button id="menu-button" fx:id="inputButton" mnemonicParsing="false" onAction="#validateInput" styleClass="menu-button" stylesheets="@../css/Main.css" text="OK" />
             <Label id="sub-title" fx:id="playerLabel" layoutX="69.0" layoutY="48.0" text="Current Player : none" stylesheets="@../css/Main.css"/>
-            <Label fx:id="warningLabel" layoutX="40.0" layoutY="65.0" />
+            <Label fx:id="warningLabel" layoutX="40.0" layoutY="75.0" />
             <Label fx:id="messageLabel" layoutX="40.0" layoutY="96.0" text="Message Label" />
             <Label layoutX="179.0" layoutY="305.0" text="Input here" />
             <Label fx:id="availableInputLabel" layoutX="38.0" layoutY="127.0" text="Selection available Label" />

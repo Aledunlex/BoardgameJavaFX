@@ -43,7 +43,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private Label eachplayernbofdeployed, eachplayerremainingfood, eachplayerunitsownedgold;
 	@FXML
-	private Button startButton;
+	private Button startButton, inputButton;
 	@FXML
 	private Label warningLabel, messageLabel, availableInputLabel, playerLabel;
 	@FXML
@@ -65,6 +65,18 @@ public class MainController implements Initializable, PropertyChangeListener {
 		int column = GridPane.getColumnIndex((Button) e.getSource());
 		clickedCell = theGame.getBoard().getCell(row, column);
 		updateCellStatus();
+	}
+	
+	@FXML
+	protected void validateInput(ActionEvent e) {
+		try {
+			int res =  Integer.parseInt(inputField.getText());
+			NoConsoleInputStrat strat = (NoConsoleInputStrat) theGame.getCurrentPlayer().getStrategy();
+			strat.setInputValue(res);
+		}
+		catch(NumberFormatException error) {
+			System.out.println("nope");
+		}
 	}
 	
 	@FXML
