@@ -132,6 +132,11 @@ public abstract class Game extends AbstractPropertyChangeable {
 				}
 				System.out.println("\n * Owned necessities : " + currentPlayer.getNeedQty() + currentPlayer.needToString(currentPlayer.getNeedQty()) + ".");
 				playPlayerRound(currentPlayer);
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		maxRounds--;
@@ -148,7 +153,13 @@ public abstract class Game extends AbstractPropertyChangeable {
 		player.getStrategy().chooseMove(this.theMoves).execute(player);
 
 		for (Move move : this.mandatoryMoves) {
-			move.execute(player);
+			try {
+				Thread.sleep(200);
+				move.execute(player);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 

@@ -7,12 +7,13 @@ import java.util.Set;
 
 import boardgame.BoardGame;
 import boardgame.Cell;
+import boardgame.MainController;
 import boardgame.Move;
 import boardgame.Resource;
 import boardgame.Strategy;
 import boardgame.Unit;
 import boardgame.util.AbstractPropertyChangeable;
-import boardgame.util.Input;
+import javafx.application.Platform;
 
 /**
  * An implementation of Strategy, to be used with a Player object to let them
@@ -25,9 +26,11 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	private String warningText = "";
 	private String messageText = "";
 	private String availableSelection = "";
-	private int inputValue;
+	private static int inputValue;
+	private MainController controller;
 	
-	public NoConsoleInputStrat() {
+	public NoConsoleInputStrat(MainController controller) {
+		this.controller = controller; 
 	}
 
 	@Override
@@ -93,33 +96,12 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	 * @param min  minimum value (included) of the input int
 	 * @param max  maximum value (excluded) of the input int
 	 * @param name name of the value ask by the input (use only for display)
-	 * @exception java.io.IOException if input does not correspond to an int
 	 * @return correct int the player chose
 	 */
 	public int checkCorrectInput(int min, int max, String name) {
-		boolean saisieCorrect = false;
-		int value = 0;
-
-		if (!saisieCorrect) {
-			setMessageText(name + " : ");
-			value = inputValue;
-
-			if (value < min) {
-				setWarningText("The input is too small, it must be greater than or equal to " + min);
-				checkCorrectInput(min, max, name);
-			}
-
-			else if (value >= max) {
-				setWarningText("The input is too large, it must be less than " + max);
-				checkCorrectInput(min, max, name);
-			}
-
-			else {
-				saisieCorrect = true;
-			}
-		}
-		return value;
-
+		int res = controller.checkCorrectInput(min, max, name);
+		setInputValue(0);
+		return res;
 	}
 
 	@Override
@@ -189,11 +171,13 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	}
 	
 	public void setInputValue(int inputValue) {
-		this.inputValue = inputValue;
+		int prev = NoConsoleInputStrat.inputValue;
+		NoConsoleInputStrat.inputValue = inputValue;
+		propertyChangeSupport.firePropertyChange("inputValue", prev, inputValue);
 	}
 
-	/*
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		super.addPropertyChangeListener(listener);
-	}*/
+	public static int getInputValue() {
+		return inputValue;
+	}
+
 }

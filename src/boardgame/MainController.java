@@ -13,6 +13,7 @@ import boardgame.players.EcoPlayer;
 import boardgame.players.WarPlayer;
 import boardgame.strategy.NoConsoleInputStrat;
 import boardgame.strategy.RandomStrat;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +30,9 @@ public class MainController implements Initializable, PropertyChangeListener {
 	private static int BOARD_WIDTH = 10;
 	private static int BOARD_LENGHT = 10;
 
+	private NoConsoleInputStrat inputStrat;
+	private final Object loopKey = new Object();
+	
 	private Cell clickedCell;
 	private GridPane buttonsContainer;
 	private Game theGame;
@@ -71,12 +75,32 @@ public class MainController implements Initializable, PropertyChangeListener {
 	protected void validateInput(ActionEvent e) {
 		try {
 			int res =  Integer.parseInt(inputField.getText());
-			NoConsoleInputStrat strat = (NoConsoleInputStrat) theGame.getCurrentPlayer().getStrategy();
-			strat.setInputValue(res);
+			inputStrat.setInputValue(res);
+			Platform.exitNestedEventLoop(loopKey, null);
 		}
 		catch(NumberFormatException error) {
 			System.out.println("nope");
 		}
+	}
+	
+	public int checkCorrectInput(int min, int max, String name) {
+		boolean saisieCorrect = false;
+		int value = 0;
+		if (!saisieCorrect) {
+			inputStrat.setMessageText(name + " : ");
+			Platform.enterNestedEventLoop(loopKey);
+			value = NoConsoleInputStrat.getInputValue();
+			if (value < min) {
+				inputStrat.setWarningText("The input is too small, it must be greater than or equal to " + min);
+			}
+			else if (value >= max) {
+				inputStrat.setWarningText("The input is too large, it must be less than " + max);
+			}
+			else {
+				saisieCorrect = true;
+			}
+		}
+		return value;
 	}
 	
 	@FXML
@@ -141,7 +165,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		}
 		if (evt.getPropertyName() == "currentPlayer")
 			updateCurrentPlayerLabel(evt);
-		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection")
+		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection" || evt.getPropertyName() == "inputValue")
 			updateAllInputLabels(evt);
 		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
@@ -154,7 +178,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	private void updateAllInputLabels(PropertyChangeEvent evt) {
-		NoConsoleInputStrat strat = (NoConsoleInputStrat) theGame.getCurrentPlayer().getStrategy();
+		NoConsoleInputStrat strat = this.inputStrat;
 		warningLabel.setText(strat.getWarningText());
 		messageLabel.setText(strat.getMessageText());
 		availableInputLabel.setText(strat.getAvailableSelection());
@@ -230,7 +254,8 @@ public class MainController implements Initializable, PropertyChangeListener {
      */
 	private void initGame(Player player) {
 		RandomStrat strat = new RandomStrat();
-		NoConsoleInputStrat inputStrat = new NoConsoleInputStrat();
+		NoConsoleInputStrat inputStrat = new NoConsoleInputStrat(this);
+		this.inputStrat = inputStrat;
 		inputStrat.addPropertyChangeListener(this);
 		Player player1;
 		Player player2;
