@@ -101,14 +101,19 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	public int checkCorrectInput(int min, int max, String name) {
 		int res = controller.checkCorrectInput(min, max, name);
 		setInputValue(0);
+		setWarningText("");
+		setAvailableSelection("");
+		setMessageText("");
 		return res;
 	}
 
 	@Override
 	public String chooseResourceType(HashMap<String, ArrayList<Resource>> resource) {
+		System.out.println(this.messageText);
 		Set<String> key = resource.keySet();
 		String[] ar = key.toArray(new String[0]);
 		setMessageText("Choose a resource to convert");
+
 		int i = 1;
 		String res = "";
 		for (String k : key) {
@@ -116,8 +121,11 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 			i++;
 		}
 		res += "[" + i + "] convert nothing";
-		int choice = this.checkCorrectInput(1, ar.length + 2, "choice");
+		System.out.println(res + "c'est res");
+		System.out.println(availableSelection + "c'est available selection avant");
 		setAvailableSelection(res);
+		System.out.println(availableSelection + "c'est available selection apres");
+		int choice = this.checkCorrectInput(1, ar.length + 2, "choice");
 		if (choice == ar.length + 1) {
 			return null;
 		} else {
@@ -168,6 +176,7 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		String prev = this.availableSelection;
 		this.availableSelection = availableSelection;
 		propertyChangeSupport.firePropertyChange("availableSelection", prev, availableSelection);
+		System.out.println("la sélection est MAJ dans la strategy...");
 	}
 	
 	public void setInputValue(int inputValue) {

@@ -167,6 +167,8 @@ public class MainController implements Initializable, PropertyChangeListener {
 			updateCurrentPlayerLabel(evt);
 		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection" || evt.getPropertyName() == "inputValue")
 			updateAllInputLabels(evt);
+		if (evt.getPropertyName() == "availableSelection")
+			System.out.println("ça devrait mettre à jour la sélection bordel");
 		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
 		//else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
@@ -181,7 +183,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		NoConsoleInputStrat strat = this.inputStrat;
 		warningLabel.setText(strat.getWarningText());
 		messageLabel.setText(strat.getMessageText());
+		
+		System.out.println("mess text avant : " + strat.getAvailableSelection());
 		availableInputLabel.setText(strat.getAvailableSelection());
+		System.out.println("mess text apres : " + strat.getAvailableSelection());
 	}
 	
 	private void updateCellButtonId(PropertyChangeEvent evt) {
