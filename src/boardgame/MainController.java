@@ -53,11 +53,12 @@ public class MainController implements Initializable, PropertyChangeListener {
 	@FXML
 	private TextField inputField;
 	
-	
+	/* Le joueur player sera utilise pour determiner le type de jeu a lancer... 
+	 * pas tres opti mais c'est du bricolage */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("appel du contrôleur");
-		Player player = new WarPlayer("any", new RandomStrat()); /* player sera utilise pour determiner le type de jeu a lancer... pas tres opti mais c'est du bricolage */
+		Player player = new WarPlayer("any", new RandomStrat()); 
 		initGame(player);
 		initBoardView();
 	}
@@ -72,6 +73,12 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	@FXML
+	/**
+	 * Apres avoir entre un chiffre dans le TextField et apres avoir clique sur le bouton associe,
+	 * appel de cette fonction pour verifier que c'est bien un chiffre. Si oui, la valeur est passee
+	 * a la NoConsoleInputStrat.
+	 * @param e
+	 */
 	protected void validateInput(ActionEvent e) {
 		try {
 			int res =  Integer.parseInt(inputField.getText());
@@ -83,11 +90,18 @@ public class MainController implements Initializable, PropertyChangeListener {
 		}
 	}
 	
+	/**
+	 * Presque le meme que dans RandomStrategy; est appele par NoConsoleInputStrat
+	 * @param min value
+	 * @param max value
+	 * @param name de ce qui est input
+	 * @return la valeur si correct, sinon 0
+	 */
 	public int checkCorrectInput(int min, int max, String name) {
 		boolean saisieCorrect = false;
 		int value = 0;
 		if (!saisieCorrect) {
-			inputStrat.setMessageText(name + " : ");
+			inputStrat.setMessageText(inputStrat.getMessageText() + '\n' + name + " : ");
 			Platform.enterNestedEventLoop(loopKey);
 			value = NoConsoleInputStrat.getInputValue();
 			if (value < min) {
@@ -104,7 +118,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	@FXML
-	/* appelé par le bouton start game */
+	/* appelé par le bouton "start game / next round"
+	 * Lance un tour de jeu si le jeu n'est pas encore fini; une fois fini, 
+	 * le calcul de score et l'affichage du vainqueur sont faits.  
+	 */
 	protected void startGame(ActionEvent e) {
 		if (!theGame.isFinished()) {
 			theGame.playOneRound();
@@ -149,6 +166,11 @@ public class MainController implements Initializable, PropertyChangeListener {
 		initializeGridPaneArray();
 	}
 
+	/**
+	 * Quand une des proprietes d'un objet dont MainController est passe Listener change,
+	 * cette modification est, normalement, recuperee ici sous forme de PropertyChangeEvent.
+	 * On peut alors recuperer le nom de la propriete modifiee et faire ce qui est approprie.
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getPropertyName() == "maxRounds") {
@@ -167,28 +189,35 @@ public class MainController implements Initializable, PropertyChangeListener {
 			updateCurrentPlayerLabel(evt);
 		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection" || evt.getPropertyName() == "inputValue")
 			updateAllInputLabels(evt);
-		if (evt.getPropertyName() == "availableSelection")
-			System.out.println("ça devrait mettre à jour la sélection bordel");
 		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
 		/* pour debug */
 		//else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
 	
+	/**
+	 * Modifie le nom du joueur dont c'est le tour sur l'interface
+	 * @param evt
+	 */
 	private void updateCurrentPlayerLabel(PropertyChangeEvent evt) {
 		String display = "Currently playing : ";
 		playerLabel.setText(display + theGame.getCurrentPlayer().getName());
 	}
 	
+	/**
+	 * Modifie les affichages relatifs a la selection d'action sur l'interface
+	 * @param evt
+	 */
 	private void updateAllInputLabels(PropertyChangeEvent evt) {
 		NoConsoleInputStrat strat = this.inputStrat;
 		warningLabel.setText(strat.getWarningText());
 		messageLabel.setText(strat.getMessageText());
-		
-		System.out.println("mess text avant : " + strat.getAvailableSelection());
 		availableInputLabel.setText(strat.getAvailableSelection());
-		System.out.println("mess text apres : " + strat.getAvailableSelection());
 	}
 	
+	/**
+	 * Modifie l'id du bouton de la tuile selon qu'elle est occupee ou non, pour son CSS
+	 * @param evt
+	 */
 	private void updateCellButtonId(PropertyChangeEvent evt) {
 		Cell cell = (Cell) evt.getSource();
 		Button button = getButtonAt(cell);
@@ -202,6 +231,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		button.setId(btnId);
 	}
 	
+	/**
+	 * Met a jour la quantite de nourriture/or possedee par chaque joueur
+	 * @param evt
+	 */
 	private void updateStuffToPleaseLabel(PropertyChangeEvent evt) {
 		String stuffToPleaseByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
@@ -210,6 +243,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		eachplayerremainingfood.setText(stuffToPleaseByPlayer);
 	}
 	
+	/**
+	 * Met a jour la quantite de tuiles possedee par chaque joueur
+	 * @param evt
+	 */
 	private void updateOwnedCellsLabel(PropertyChangeEvent evt) {
 		String ownedCellsByPlayer = "";
 		for (Player player : theGame.getThePlayers()) {
@@ -221,6 +258,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		eachplayernbofdeployed.setText(ownedCellsByPlayer);
 	}
 	
+	/**
+	 * Met a jour le numero de tour sur l'interface
+	 * @param evt
+	 */
 	private void updateRoundLabel() {
 		int currRound = ROUNDS - theGame.maxRounds;
 		String roundLabelText = String.valueOf(currRound);
@@ -230,6 +271,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		currentRound.setText(roundLabelText);
 	}
 
+	/**
+	 * Affiche le nom du vainqueur en fin de partie
+	 * @param evt
+	 */
 	private void updateWinnerLabel() {
 		gameProgressLabel.setText("Game over!");
 		winnerDisplay.setText(theGame.displayWinner(theGame.getWinner()));
@@ -278,7 +323,6 @@ public class MainController implements Initializable, PropertyChangeListener {
 		if (player1 instanceof WarPlayer) {game = new GameWar(board, ROUNDS); }
 		else if (player1 instanceof EcoPlayer) {game = new GameEco(board, ROUNDS);}
 		else {game = null;}
-		System.out.println(player1);
 		game.addPlayer(player1);
 		game.addPlayer(player2);
 		theGame=game;
@@ -286,6 +330,12 @@ public class MainController implements Initializable, PropertyChangeListener {
 		theGame.initPlayerRes();
 	}
 	
+	/**
+	 * Cree un board avec le fabrice correspondant au type de player passe en parametre.
+	 * La creation de plateau est relancee tant qu'on n'a pas au moins 5 tuiles dessus.
+	 * @param player
+	 * @return un board.
+	 */
 	private BoardGame createBoard(Player player) {
 		BoardGame board;
 		Fabrice fabrice;

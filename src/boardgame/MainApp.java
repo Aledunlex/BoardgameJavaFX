@@ -19,6 +19,7 @@ public class MainApp extends Application {
 			primaryStage.setTitle("Boardgame - War Game - Random Strategy");
 
 			Scene mainScreenScene = new Scene(root);
+			mainScreenScene.getStylesheets().add("https://fonts.googleapis.com/css?family=Pacifico");
 			
 			primaryStage.setScene(mainScreenScene);
 			primaryStage.setResizable(false);

@@ -13,7 +13,6 @@ import boardgame.Resource;
 import boardgame.Strategy;
 import boardgame.Unit;
 import boardgame.util.AbstractPropertyChangeable;
-import javafx.application.Platform;
 
 /**
  * An implementation of Strategy, to be used with a Player object to let them
@@ -109,11 +108,9 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 
 	@Override
 	public String chooseResourceType(HashMap<String, ArrayList<Resource>> resource) {
-		System.out.println(this.messageText);
 		Set<String> key = resource.keySet();
 		String[] ar = key.toArray(new String[0]);
 		setMessageText("Choose a resource to convert");
-
 		int i = 1;
 		String res = "";
 		for (String k : key) {
@@ -121,17 +118,14 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 			i++;
 		}
 		res += "[" + i + "] convert nothing";
-		System.out.println(res + "c'est res");
-		System.out.println(availableSelection + "c'est available selection avant");
 		setAvailableSelection(res);
-		System.out.println(availableSelection + "c'est available selection apres");
 		int choice = this.checkCorrectInput(1, ar.length + 2, "choice");
 		if (choice == ar.length + 1) {
+			setWarningText("You don't have any of this resource, select another.");
 			return null;
 		} else {
 			return ar[choice - 1];
 		}
-		
 	}
 
 	@Override
@@ -176,7 +170,6 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		String prev = this.availableSelection;
 		this.availableSelection = availableSelection;
 		propertyChangeSupport.firePropertyChange("availableSelection", prev, availableSelection);
-		System.out.println("la sélection est MAJ dans la strategy...");
 	}
 	
 	public void setInputValue(int inputValue) {
