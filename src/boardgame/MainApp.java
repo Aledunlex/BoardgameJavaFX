@@ -16,7 +16,7 @@ public class MainApp extends Application {
 		try {
 			System.out.println("# Beginning of war main #");
 			Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/Main.fxml"));
-			primaryStage.setTitle("Boardgame - War Game - Random Strategy");
+			primaryStage.setTitle("Boardgame - War Game - Input Strategy");
 
 			Scene mainScreenScene = new Scene(root);
 			mainScreenScene.getStylesheets().add("https://fonts.googleapis.com/css?family=Pacifico");
@@ -25,7 +25,6 @@ public class MainApp extends Application {
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			primaryStage.centerOnScreen();
-
 
 			System.out.println("\n # End of war main #");
 

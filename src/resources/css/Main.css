@@ -1,18 +1,9 @@
-.root {
-	-fx-font: 18px Arial;
-	-fx-background-color: #F0F4F8;
-	-fx-alignment: center;
-	-fx-padding: 28px;
-	-fx-spacing: 10px;
-}
-
-.button {
-	-fx-background-radius: 0;
-	-fx-pref-width: 100px;
-	-fx-pref-height: 100px;
-	-fx-font-weight: bold;
-	-fx-text-fill: #fff;
-	-fx-background-color: GREY;
+#intel-pane {
+    -fx-background-color: #c3c4c4, linear-gradient(#d6d6d6 50%, white 100%), radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
 
 #menu-button {
@@ -29,6 +20,25 @@
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
+#main-title {
+	-fx-font: bold 38px Pacifico;
+	-fx-alignment: center;
+}
+
+#sub-title {
+	-fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-weight: bold italics;
+}
+
+.button {
+	-fx-background-radius: 0;
+	-fx-pref-width: 100px;
+	-fx-pref-height: 100px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #fff;
+	-fx-background-color: GREY;
+}
 
 #button-OceanCell {
 	-fx-background-image: url("../images/Ocean.jpg");
@@ -65,15 +75,4 @@
 
 #button-MountainCell-busy {
 	-fx-background-color: #bdb76b;
-}
-
-#main-title {
-	-fx-font: bold 38px Pacifico;
-	-fx-alignment: center;
-}
-
-#sub-title {
-	-fx-font-size: 20px;
-    -fx-alignment: center;
-    -fx-font-weight: bold italics;
 }
