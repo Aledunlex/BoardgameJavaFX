@@ -57,7 +57,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	 * pas tres opti mais c'est du bricolage */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("appel du contrôleur");
+		System.out.println("appel du controleur");
 		Player player = new WarPlayer("any", new RandomStrat()); 
 		initGame(player);
 		initBoardView();
@@ -121,7 +121,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	}
 	
 	@FXML
-	/* appelé par le bouton "start game / next round"
+	/* appele par le bouton "start game / next round"
 	 * Lance un tour de jeu si le jeu n'est pas encore fini; une fois fini, 
 	 * le calcul de score et l'affichage du vainqueur sont faits.  
 	 */
@@ -134,7 +134,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 				playerLabel.setText("");
 			}
 		}
-		else {System.out.println("ça sert a rien de cliquer a ce moment!");}
+		else {System.out.println("ca sert a rien de cliquer a ce moment!");}
 	}
 	
 	private void updateCellStatus() {
@@ -145,11 +145,11 @@ public class MainController implements Initializable, PropertyChangeListener {
 		bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
 	}
 	
-	/** Les Cell sont chargées et transformées en boutons sur l'interface.
-	 * Les informations sont (a priori) modifiées quand une Unit y est déployée ou en est retirée (ou traitorousUnit()).
-	 * Pour chaque tuile du plateau, on va créer un bouton; chaque bouton forme le plateau sur l'interface. 
-	 * De plus, chaque bouton est cliquable et renvoie sur une autre fenêtre qui donne les informations 
-	 * relatives à la tuile cliquée.
+	/** Les Cell sont chargees et transformees en boutons sur l'interface.
+	 * Les informations sont (a priori) modifiees quand une Unit y est deployee ou en est retiree (ou traitorousUnit()).
+	 * Pour chaque tuile du plateau, on va creer un bouton; chaque bouton forme le plateau sur l'interface. 
+	 * De plus, chaque bouton est cliquable et renvoie sur une autre fenetre qui donne les informations 
+	 * relatives a la tuile cliquee.
 	 * 
 	 */
 	private void initBoardView() {
@@ -194,7 +194,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 			updateCurrentPlayerLabel(evt);
 		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection" || evt.getPropertyName() == "inputValue")
 			updateAllInputLabels(evt);
-		/* les autres evt ne sont pas ou mal détectés, jsp pourquoi */
+		/* les autres evt ne sont pas ou mal detectes, jsp pourquoi */
 		/* pour debug */
 		//else {System.out.println("###########################La source est : ".toUpperCase() + evt.getPropertyName());}
 	}
