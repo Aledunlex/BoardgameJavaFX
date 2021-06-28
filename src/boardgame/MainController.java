@@ -85,9 +85,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 			inputStrat.setInputValue(res);
 			Platform.exitNestedEventLoop(loopKey, null);
 		}
-		catch(NumberFormatException error) {
+		catch(IllegalArgumentException error) {
 			System.out.println("nope");
 		}
+
 	}
 	
 	/**
@@ -100,8 +101,9 @@ public class MainController implements Initializable, PropertyChangeListener {
 	public int checkCorrectInput(int min, int max, String name) {
 		boolean saisieCorrect = false;
 		int value = 0;
-		if (!saisieCorrect) {
-			inputStrat.setMessageText(inputStrat.getMessageText() + '\n' + name + " : ");
+		String currText = inputStrat.getMessageText();
+		while (!saisieCorrect) {
+			inputStrat.setMessageText(currText + '\n' + name + " : ");
 			Platform.enterNestedEventLoop(loopKey);
 			value = NoConsoleInputStrat.getInputValue();
 			if (value < min) {
@@ -123,7 +125,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 	 * le calcul de score et l'affichage du vainqueur sont faits.  
 	 */
 	protected void startGame(ActionEvent e) {
-		if (!theGame.isFinished()) {
+		if (!theGame.isFinished() && theGame.roundEnded()) {
 			theGame.playOneRound();
 			if (theGame.isFinished()) {
 				theGame.displayEnd();

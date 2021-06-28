@@ -21,6 +21,7 @@ public abstract class Player extends AbstractPropertyChangeable {
 	protected List<Cell> controlledCells;
 	protected Strategy strat;
 	protected Game playedGame;
+	protected boolean finishedRound;
 
 	/**
 	 * Builds a Player of given name and a Strategy
@@ -35,8 +36,17 @@ public abstract class Player extends AbstractPropertyChangeable {
 		this.score = 0;
 		this.strat = strategy;
 		this.resources = new HashMap<String, ArrayList<Resource>>();
+		this.finishedRound = true;
 	}
 
+	public void setFinishedRound(boolean state) {
+		this.finishedRound = state;
+	}
+	
+	public boolean getFinishedRound() {
+		return finishedRound;
+	}
+	
 	/**
 	 * Returns the Game in which the Player was added
 	 *

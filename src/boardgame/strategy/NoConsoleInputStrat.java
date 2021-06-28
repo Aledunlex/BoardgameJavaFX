@@ -50,15 +50,15 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 	public Cell chooseCell(BoardGame board) {
 		boolean possibleToPlace = false;
 		Cell cell = null;
-		setMessageText("Select a box : ");
+		setMessageText("Input a cell's coordinates : ");
 		while (!possibleToPlace) {
 			int x = this.chooseX(0, board.getWidth());
 			int y = this.chooseY(0, board.getLength());
 			cell = board.getCell(x, y);
-			if (!cell.isBusy()) {
+			if (cell.usableInThisGame() && !cell.isBusy()) {
 				possibleToPlace = true;
 			} else {
-				setWarningText("This box is already occupied, you have to choose another one.");
+				setWarningText("This box is unavailable, you have to choose another one.");
 			}
 		}
 		return cell;
@@ -78,13 +78,13 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 
 	@Override
 	public int chooseX(int min, int max) {
-		setMessageText("Enter x :");
+		setMessageText("Enter x coordinate :");
 		return this.checkCorrectInput(min, max, "x");
 	}
 
 	@Override
 	public int chooseY(int min, int max) {
-		setMessageText("Enter y :");
+		setMessageText("Enter y coordinate :");
 		return this.checkCorrectInput(min, max, "y");
 	}
 
@@ -121,7 +121,7 @@ public class NoConsoleInputStrat extends AbstractPropertyChangeable implements S
 		setAvailableSelection(res);
 		int choice = this.checkCorrectInput(1, ar.length + 2, "choice");
 		if (choice == ar.length + 1) {
-			setWarningText("You don't have any of this resource, select another.");
+			//?TODO? setWarningText("You don't have any of this resource, select another."); ne correspond pas a ce if, a deplacer
 			return null;
 		} else {
 			return ar[choice - 1];

@@ -150,6 +150,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 * @param player whose turn it is
 	 **/
 	public void playPlayerRound(Player player) {
+		player.setFinishedRound(false);
 		player.getStrategy().chooseMove(this.theMoves).execute(player);
 
 		for (Move move : this.mandatoryMoves) {
@@ -161,6 +162,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 			}
 			
 		}
+		player.setFinishedRound(true);
 	}
 
 	/**
@@ -314,6 +316,13 @@ public abstract class Game extends AbstractPropertyChangeable {
 	
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public boolean roundEnded() {
+		boolean answer = true;
+		if (currentPlayer != null)
+			answer = currentPlayer.getFinishedRound();
+		return answer;
 	}
 	
 }

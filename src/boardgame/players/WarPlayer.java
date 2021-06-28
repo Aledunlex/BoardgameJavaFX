@@ -1,5 +1,8 @@
 package boardgame.players;
 
+import java.util.List;
+
+import boardgame.Cell;
 import boardgame.Player;
 import boardgame.Strategy;
 import boardgame.Unit;
@@ -83,18 +86,27 @@ public class WarPlayer extends Player {
 	/**
 	 * A unit's team is modified into another team. No bonus gold, no call to the
 	 * quit() method (the unit's cell remains as is) Only to be used when the Army
-	 * is lost to an enemy Player! This player loses one to their max Units amount;
-	 * the enemy player adds one unit to their max Units amount.
+	 * is lost to an enemy Player!
 	 *
 	 * @param unit        about to be lost by this player
 	 * @param otherPlayer about to win the unit
 	 */
 	public void traitorousUnit(Army unit, WarPlayer otherPlayer) {
+		List<Unit> previousP1Units = this.deployedUnits;
+		List<Cell> previousP1Cells = this.controlledCells;
+		List<Unit> previousP2Units = otherPlayer.deployedUnits;
+		List<Cell> previousP2Cells = otherPlayer.controlledCells;
+		
 		this.controlledCells.remove(unit.getCell());
 		this.deployedUnits.remove(unit);
 		otherPlayer.deployedUnits.add(unit);
 		otherPlayer.controlledCells.add(unit.getCell());
 		unit.setTeam(otherPlayer);
+		
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousP1Units, this.deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousP1Cells, this.controlledCells);
+		propertyChangeSupport.firePropertyChange("deployedUnits", previousP2Units, otherPlayer.deployedUnits);
+		propertyChangeSupport.firePropertyChange("controlledCells", previousP2Cells, otherPlayer.controlledCells);
 	}
 
 	/**
