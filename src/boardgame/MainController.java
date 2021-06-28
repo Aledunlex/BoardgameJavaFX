@@ -26,7 +26,7 @@ import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable, PropertyChangeListener {
 	
-	private static int ROUNDS = 10;
+	private static int ROUNDS = 5;
 	private static int BOARD_WIDTH = 10;
 	private static int BOARD_LENGHT = 10;
 
@@ -61,6 +61,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 		Player player = new WarPlayer("any", new RandomStrat()); 
 		initGame(player);
 		initBoardView();
+		updateRoundLabel();
 	}
 	
 	
@@ -130,8 +131,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 			if (theGame.isFinished()) {
 				theGame.displayEnd();
 				updateWinnerLabel();
+				playerLabel.setText("");
 			}
 		}
+		else {System.out.println("ça sert a rien de cliquer a ce moment!");}
 	}
 	
 	private void updateCellStatus() {
@@ -265,12 +268,14 @@ public class MainController implements Initializable, PropertyChangeListener {
 	 * @param evt
 	 */
 	private void updateRoundLabel() {
-		int currRound = ROUNDS - theGame.maxRounds;
+		int currRound = ROUNDS - theGame.maxRounds +1;
 		String roundLabelText = String.valueOf(currRound);
-		if (theGame.maxRounds == 0) { 
+		if (theGame.maxRounds == 1) { 
 			roundLabelText += " (final)";
 		}
-		currentRound.setText(roundLabelText);
+		if (theGame.maxRounds != 0) {
+			currentRound.setText(roundLabelText);
+		}
 	}
 
 	/**
