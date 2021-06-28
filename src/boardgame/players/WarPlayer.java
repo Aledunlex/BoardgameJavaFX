@@ -105,8 +105,8 @@ public class WarPlayer extends Player {
 		
 		propertyChangeSupport.firePropertyChange("deployedUnits", previousP1Units, this.deployedUnits);
 		propertyChangeSupport.firePropertyChange("controlledCells", previousP1Cells, this.controlledCells);
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousP2Units, otherPlayer.deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousP2Cells, otherPlayer.controlledCells);
+		otherPlayer.getChangeSupport().firePropertyChange("deployedUnits", previousP2Units, otherPlayer.deployedUnits);
+		otherPlayer.getChangeSupport().firePropertyChange("controlledCells", previousP2Cells, otherPlayer.controlledCells);
 	}
 
 	/**
