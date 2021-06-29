@@ -92,21 +92,11 @@ public class WarPlayer extends Player {
 	 * @param otherPlayer about to win the unit
 	 */
 	public void traitorousUnit(Army unit, WarPlayer otherPlayer) {
-		List<Unit> previousP1Units = this.deployedUnits;
-		List<Cell> previousP1Cells = this.controlledCells;
-		List<Unit> previousP2Units = otherPlayer.deployedUnits;
-		List<Cell> previousP2Cells = otherPlayer.controlledCells;
-		
 		this.controlledCells.remove(unit.getCell());
 		this.deployedUnits.remove(unit);
 		otherPlayer.deployedUnits.add(unit);
 		otherPlayer.controlledCells.add(unit.getCell());
 		unit.setTeam(otherPlayer);
-		
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousP1Units, this.deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousP1Cells, this.controlledCells);
-		otherPlayer.getChangeSupport().firePropertyChange("deployedUnits", previousP2Units, otherPlayer.deployedUnits);
-		otherPlayer.getChangeSupport().firePropertyChange("controlledCells", previousP2Cells, otherPlayer.controlledCells);
 	}
 
 	/**

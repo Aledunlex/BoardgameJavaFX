@@ -187,9 +187,10 @@ public class MainController implements Initializable, PropertyChangeListener {
 		if (evt.getPropertyName() == "stuffToPleaseUnit") {
 			updateStuffToPleaseLabel(evt);
 		}
-		if (evt.getPropertyName() == "currentUnit"  || evt.getPropertyName() == "controlledCells") {
+		if (evt.getPropertyName() == "currentUnit"  || evt.getPropertyName() == "team") {
 			updateOwnedCellsLabel(evt);
 		}
+		if (evt.getPropertyName() == "resources")  {System.out.println("buenos dias FUCKBOYS");}
 		if (evt.getPropertyName() == "currentPlayer")
 			updateCurrentPlayerLabel(evt);
 		if (evt.getPropertyName() == "warningText" || evt.getPropertyName() == "messageText" || evt.getPropertyName() == "availableSelection" || evt.getPropertyName() == "inputValue")

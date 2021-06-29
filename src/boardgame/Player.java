@@ -150,13 +150,9 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @return true if the Player's attributes allows to place this unit
 	 */
 	public boolean addDeployedUnit(Unit unit) {
-		List<Unit> previousUnits = deployedUnits;
-		List<Cell> previousCells = controlledCells;
 		this.deployedUnits.add(unit);
 		this.controlledCells.add(unit.getCell());
 		unit.addPropertyChangeListener(this.getChangeSupport().getPropertyChangeListeners()[0]);
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
 		return true;
 	}
 
@@ -177,13 +173,9 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @param unit to be removed from this player's list of units
 	 */
 	public void removeUnit(Unit unit) {
-		List<Unit> previousUnits = deployedUnits;
-		List<Cell> previousCells = controlledCells;
 		this.controlledCells.remove(unit.getCell());
 		this.deployedUnits.remove(unit);
 		unit.quit();
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
 	}
 	
 	/**
@@ -194,14 +186,8 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @param unit to be removed from this player's list of units
 	 */
 	public void loseAllUnits() {
-		List<Unit> previousUnits = deployedUnits;
-		List<Cell> previousCells = controlledCells;
 		for (Unit unit : deployedUnits)
 			unit.quit();
-		this.controlledCells = new ArrayList<Cell>();
-		this.deployedUnits = new ArrayList<Unit>();
-		propertyChangeSupport.firePropertyChange("deployedUnits", previousUnits, this.deployedUnits);
-		propertyChangeSupport.firePropertyChange("controlledCells", previousCells, this.controlledCells);
 	}
 
 	/**
