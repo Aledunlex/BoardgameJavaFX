@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.PrintStream;
+
 public class MainApp extends Application {
 
 
@@ -13,7 +15,6 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            System.out.println("# Beginning of boardgame main #");
             Parent root = FXMLLoader.load(getClass().getResource("/resources/fxml/Main.fxml"));
             primaryStage.setTitle("Boardgame - War Game - Input Strategy");
 
@@ -24,9 +25,6 @@ public class MainApp extends Application {
             primaryStage.setResizable(false);
             primaryStage.show();
             primaryStage.centerOnScreen();
-
-            System.out.println("\n # End of boardgame main #");
-
         } catch(Exception e) {
             e.printStackTrace();
         }

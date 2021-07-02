@@ -34,9 +34,9 @@ public abstract class Game extends AbstractPropertyChangeable {
 	public Game(BoardGame board, int maxRounds) {
 		this.board = board;
 		this.maxRounds = maxRounds;
-		thePlayers = new ArrayList<Player>();
-		theMoves = new ArrayList<Move>();
-		mandatoryMoves = new ArrayList<Move>();
+		thePlayers = new ArrayList<>();
+		theMoves = new ArrayList<>();
+		mandatoryMoves = new ArrayList<>();
 		addMoveSet();
 		addMandatoryMoves();
 	}
@@ -106,7 +106,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 			if (c.getResource() != null) {
 				for (Player p : thePlayers) {
 					if (!p.allResources().containsKey(c.getResource().getId())) {
-						p.allResources().put(c.getResource().getId(), new ArrayList<Resource>());
+						p.allResources().put(c.getResource().getId(), new ArrayList<>());
 					}
 				}
 			}
@@ -118,7 +118,6 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 * Player, if there are remaining available Cells
 	 */
 	public void playOneRound() {
-		board.displayBoard();
 		for (int i = 0; i < thePlayers.size(); i++) {
 			if (!this.isFinished()) {
 				nextPlayer();
@@ -130,10 +129,9 @@ public abstract class Game extends AbstractPropertyChangeable {
 					for (Cell cell : currentPlayer.allControlledCells())
 						System.out.println(" *  → " + cell.toString());
 				}
-				System.out.println("\n * Owned necessities : " + currentPlayer.getNeedQty() + currentPlayer.needToString(currentPlayer.getNeedQty()) + ".");
 				playPlayerRound(currentPlayer);
 				try {
-					Thread.sleep(200);
+					Thread.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -178,7 +176,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 			System.out.println("\nCOUNTING " + player.toString().toUpperCase() + "'S SCORE :");
 			this.countPlayerScore(player);
 			if (player.getScore() == 0)
-				System.out.println(" → " + player.toString() + " has no points...");
+				System.out.println(" → " + player + " has no points...");
 		}
 	}
 
@@ -189,7 +187,7 @@ public abstract class Game extends AbstractPropertyChangeable {
 	 * @return player(s) with the higher score in an ArrayList
 	 */
 	public ArrayList<Player> getWinner() {
-		ArrayList<Player> winner = new ArrayList<Player>();
+		ArrayList<Player> winner = new ArrayList<>();
 		for (Player player : this.thePlayers) {
 			if (winner.isEmpty()) {
 				winner.add(player);
@@ -216,24 +214,6 @@ public abstract class Game extends AbstractPropertyChangeable {
 	}
 
 	/**
-	 * Plays a game with all players until it is finished after initializing their
-	 * Resource inventory
-	 
-	public void play() {
-		this.initPlayerRes();
-		int round = 1; 
-		while (!this.isFinished()) {
-			System.out.println("__________________________________\n\n");
-			System.out.println("###################");
-			System.out.println(" START OF ROUND " + round);
-			System.out.println("###################");
-			round++;
-			this.playOneRound();
-		}
-		this.displayEnd();
-	}*/
-
-	/**
 	 * Displays the winner of the game, in case of tie display all players with the
 	 * higher score
 	 *
@@ -253,12 +233,6 @@ public abstract class Game extends AbstractPropertyChangeable {
 			}
 		}
 
-		int starCountDisplay = winnerDisplay.length();
-
-		System.out.println("\n\n" + "*".repeat(starCountDisplay) + "\n");
-		System.out.println(winnerDisplay);
-		System.out.println("\n\n" + "*".repeat(starCountDisplay));
-		
 		return winnerDisplay;
 	}
 

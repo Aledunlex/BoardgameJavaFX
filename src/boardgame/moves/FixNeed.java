@@ -79,8 +79,10 @@ public class FixNeed extends MoveAdapter {
 				this.sacrificeSelection(player, board);
 				diff = satisfiableNeed - rqdNeed;
 			}
-			for (Unit unit : player.allDeployedUnits()) {
-				this.satisfying(player, unit);
+			if (player.allDeployedUnits().size()>0) {
+				for (Unit unit : player.allDeployedUnits()) {
+					this.satisfying(player, unit);
+				}
 			}
 		}
 	}

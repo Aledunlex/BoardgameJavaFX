@@ -2,6 +2,10 @@ package boardgame;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Console;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.*;
 
@@ -38,6 +42,10 @@ public class MainController implements Initializable, PropertyChangeListener {
     private Node[][] gridPaneArray = null;
 
     @FXML
+    private TextArea console;
+    private PrintStream ps;
+
+    @FXML
     private Pane boardPane;
     @FXML
     private Label cellLabel, busyLabel, usableLabel, surroundingsLabel, bonusLabel;
@@ -60,11 +68,25 @@ public class MainController implements Initializable, PropertyChangeListener {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("appel du controleur");
+
         initGame();
         initBoardView();
+
+        /* ce bloc detourne le system.out.println() de la sortie standard vers le TextArea de l'interface */
+        OutputStream out = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                appendText(String.valueOf((char) b));
+            }
+        };
+        System.setOut(new PrintStream(out, true));
+
         updateRoundLabel();
     }
 
+    private void appendText(String str) {
+        Platform.runLater(() -> console.appendText(str));
+    }
 
     @FXML
     protected void handleCellClicked(ActionEvent e) {
@@ -101,6 +123,9 @@ public class MainController implements Initializable, PropertyChangeListener {
      * @return la valeur si correct, sinon 0
      */
     public int checkCorrectInput(int min, int max, String name) {
+        inputField.setVisible(true);
+        inputButton.setVisible(true);
+        startButton.setVisible(false);
         boolean saisieCorrect = false;
         int value = 0;
         String currText = inputStrat.getMessageText();
@@ -118,6 +143,9 @@ public class MainController implements Initializable, PropertyChangeListener {
                 saisieCorrect = true;
             }
         }
+        inputField.setVisible(false);
+        inputButton.setVisible(false);
+        startButton.setVisible(true);
         return value;
     }
 
@@ -133,6 +161,7 @@ public class MainController implements Initializable, PropertyChangeListener {
                 theGame.displayEnd();
                 updateWinnerLabel();
                 playerLabel.setText("");
+                startButton.setVisible(false);
             }
         }
         else {System.out.println("ca sert a rien de cliquer a ce moment!");}
@@ -379,19 +408,19 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     private int askHowMany() {
         List<String> choices = new ArrayList<>();
-        choices.add("1");
+        choices.add("1 (recommended)");
         choices.add("2");
         choices.add("3");
         choices.add("4");
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("1 (recommended)", choices);
         dialog.setTitle("Player amount selection");
         dialog.setHeaderText("How many players will you play against?");
         dialog.setContentText("Chose a possible amount of players (1 to 4) :");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            return Integer.parseInt(result.get());
+            return Integer.parseInt(result.get().substring(0, 1));
         }
         else {System.out.println("Defaulted to 1."); return 1;}
     }
