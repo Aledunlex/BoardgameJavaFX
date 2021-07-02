@@ -11,76 +11,76 @@
 <?import javafx.scene.layout.VBox?>
 
 <HBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="boardgame.MainController">
-   <children>
-      <VBox prefHeight="710.0" prefWidth="1156.0">
-         <children>
-            <SplitPane dividerPositions="0.5919732441471572" prefHeight="713.0" prefWidth="1156.0">
-              <items>
-                <AnchorPane prefWidth="680.0">
-                     <children>
-                        <HBox fx:id="boardPane" layoutX="62.0" layoutY="65.0" prefHeight="710.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="417.0">
-                     <children>
-                        <SplitPane id="intel-pane" dividerPositions="0.5" layoutX="-15.0" layoutY="-25.0" orientation="VERTICAL" prefHeight="363.0" prefWidth="241.0" stylesheets="@../css/Main.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane>
-                                 <children>
-                                    <Label id="main-title" fx:id="gameProgressLabel" layoutX="-1.0" layoutY="3.0" prefHeight="70.0" prefWidth="464.0" stylesheets="@../css/Main.css" text="Game in progress" />
-                                    <Label layoutX="14.0" layoutY="73.0" text="Ongoing round :" />
-                                    <Label fx:id="winnerDisplay" layoutX="14.0" layoutY="225.0" />
-                                    <Label fx:id="currentRound" layoutX="130.0" layoutY="73.0" />
-                                  <Button id="menu-button" fx:id="startButton" layoutX="133.0" layoutY="274.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="75.0" styleClass="menu-button" stylesheets="@../css/Main.css" text="Start Game / Next Round" />
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                 <children>
-                                    <SplitPane layoutX="-18.0" layoutY="-7.0" prefHeight="177.0" prefWidth="239.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <items>
-                                        <AnchorPane id="intel-pane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@../css/Main.css">
-                                             <children>
-                                                <Label id="sub-title" fx:id="cellLabel" LayoutX="4.0" layoutY="49.0" stylesheets="@../css/Main.css" />
-                                                <Label fx:id="busyLabel" layoutX="14.0" layoutY="77.0" />
-                                                <Label fx:id="usableLabel" layoutX="14.0" layoutY="94.0" />
-                                                <Label fx:id="surroundingsLabel" layoutX="14.0" layoutY="111.0" />
-                                                <Label fx:id="bonusLabel" layoutX="14.0" layoutY="128.0" />
-                                                <Label id="sub-title" layoutY="27.0" prefHeight="30.0" prefWidth="464.0" stylesheets="@../css/Main.css" text="Cell intel" />
-                                             </children>
-                                          </AnchorPane>
-                                      </items>
-                                    </SplitPane>
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-         </children>
-      </VBox>
-      <Pane id="intel-pane" prefHeight="710.0" prefWidth="432.0" stylesheets="@../css/Main.css">
-         <children>
-            <TextField fx:id="inputField" layoutX="194.0" layoutY="279.0" prefHeight="25.0" prefWidth="37.0" />
-            <Button id="menu-button" fx:id="inputButton" graphicTextGap="0.0" layoutX="113.0" layoutY="305.0" mnemonicParsing="false" onAction="#validateInput" prefWidth="66.0" text="OK" />
-            <Label id="sub-title" fx:id="playerLabel" layoutY="48.0" prefHeight="30.0" prefWidth="425.0" stylesheets="@../css/Main.css" text="Current Player : none" />
-            <Label fx:id="warningLabel" layoutX="40.0" layoutY="75.0" />
-            <Label fx:id="messageLabel" layoutX="40.0" layoutY="84.0" />
-            <Label fx:id="availableInputLabel" layoutX="38.0" layoutY="127.0" />
-            <ScrollPane layoutX="-1.0" layoutY="355.0" prefHeight="350.0" prefWidth="432.0">
-               <content>
-                  <AnchorPane id="intel-pane" minHeight="0.0" minWidth="0.0" prefHeight="346.0" prefWidth="430.0" stylesheets="@../css/Main.css">
-                     <children>
-                        <Label id="sub-title" layoutX="-1.0" prefHeight="83.0" prefWidth="437.0" stylesheets="@../css/Main.css" text="Players intel" AnchorPane.bottomAnchor="263.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0" />
-                        <Label fx:id="eachplayernbofdeployed" layoutX="27.0" layoutY="146.0" />
-                        <Label fx:id="eachplayerremainingfood" layoutX="27.0" layoutY="53.0" />
-                        <Label fx:id="eachplayerunitsownedgold" layoutX="27.0" layoutY="261.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </ScrollPane>
-         </children>
-      </Pane>
-   </children>
+    <children>
+        <VBox prefHeight="710.0" prefWidth="1156.0">
+            <children>
+                <SplitPane dividerPositions="0.5919732441471572" prefHeight="713.0" prefWidth="1156.0">
+                    <items>
+                        <AnchorPane prefWidth="680.0">
+                            <children>
+                                <HBox fx:id="boardPane" layoutX="62.0" layoutY="65.0" prefHeight="710.0" prefWidth="680.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="417.0">
+                            <children>
+                                <SplitPane id="intel-pane" dividerPositions="0.5" layoutX="-15.0" layoutY="-25.0" orientation="VERTICAL" prefHeight="363.0" prefWidth="241.0" stylesheets="@../css/Main.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <items>
+                                        <AnchorPane>
+                                            <children>
+                                                <Label id="main-title" fx:id="gameProgressLabel" layoutX="-1.0" layoutY="3.0" prefHeight="70.0" prefWidth="464.0" stylesheets="@../css/Main.css" text="Game in progress" />
+                                                <Label layoutX="14.0" layoutY="73.0" text="Ongoing round :" />
+                                                <Label fx:id="winnerDisplay" layoutX="14.0" layoutY="225.0" />
+                                                <Label fx:id="currentRound" layoutX="130.0" layoutY="73.0" />
+                                                <Button id="menu-button" fx:id="startButton" layoutX="133.0" layoutY="274.0" mnemonicParsing="false" onAction="#startGame" prefHeight="30.0" prefWidth="75.0" styleClass="menu-button" stylesheets="@../css/Main.css" text="Start Game / Next Round" />
+                                            </children>
+                                        </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                            <children>
+                                                <SplitPane layoutX="-18.0" layoutY="-7.0" prefHeight="177.0" prefWidth="239.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <items>
+                                                        <AnchorPane id="intel-pane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@../css/Main.css">
+                                                            <children>
+                                                                <Label id="sub-title" fx:id="cellLabel" LayoutX="4.0" layoutY="49.0" stylesheets="@../css/Main.css" />
+                                                                <Label fx:id="busyLabel" layoutX="14.0" layoutY="77.0" />
+                                                                <Label fx:id="usableLabel" layoutX="14.0" layoutY="94.0" />
+                                                                <Label fx:id="surroundingsLabel" layoutX="14.0" layoutY="111.0" />
+                                                                <Label fx:id="bonusLabel" layoutX="14.0" layoutY="128.0" />
+                                                                <Label id="sub-title" layoutY="27.0" prefHeight="30.0" prefWidth="464.0" stylesheets="@../css/Main.css" text="Cell intel" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </items>
+                                                </SplitPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </items>
+                                </SplitPane>
+                            </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+            </children>
+        </VBox>
+        <Pane id="intel-pane" prefHeight="710.0" prefWidth="432.0" stylesheets="@../css/Main.css">
+            <children>
+                <TextField fx:id="inputField" layoutX="194.0" layoutY="279.0" prefHeight="25.0" prefWidth="37.0" />
+                <Button id="menu-button" fx:id="inputButton" graphicTextGap="0.0" layoutX="113.0" layoutY="305.0" mnemonicParsing="false" onAction="#validateInput" prefWidth="66.0" text="OK" />
+                <Label id="sub-title" fx:id="playerLabel" layoutY="48.0" prefHeight="30.0" prefWidth="425.0" stylesheets="@../css/Main.css" text="Current Player : none" />
+                <Label fx:id="warningLabel" layoutX="40.0" layoutY="75.0" />
+                <Label fx:id="messageLabel" layoutX="40.0" layoutY="84.0" />
+                <Label fx:id="availableInputLabel" layoutX="38.0" layoutY="127.0" />
+                <ScrollPane layoutX="-1.0" layoutY="355.0" prefHeight="350.0" prefWidth="432.0">
+                    <content>
+                        <AnchorPane id="intel-pane" minHeight="0.0" minWidth="0.0" prefHeight="346.0" prefWidth="430.0" stylesheets="@../css/Main.css">
+                            <children>
+                                <Label id="sub-title" layoutX="-1.0" prefHeight="83.0" prefWidth="437.0" stylesheets="@../css/Main.css" text="Players intel" AnchorPane.bottomAnchor="263.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0" />
+                                <Label fx:id="eachplayernbofdeployed" layoutX="27.0" layoutY="146.0" />
+                                <Label fx:id="eachplayerremainingfood" layoutX="27.0" layoutY="53.0" />
+                                <Label fx:id="eachplayerunitsownedgold" layoutX="27.0" layoutY="261.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </Pane>
+    </children>
 </HBox>

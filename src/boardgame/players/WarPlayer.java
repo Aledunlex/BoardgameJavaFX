@@ -1,8 +1,5 @@
 package boardgame.players;
 
-import java.util.List;
-
-import boardgame.Cell;
 import boardgame.Player;
 import boardgame.Strategy;
 import boardgame.Unit;

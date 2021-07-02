@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="javafx-preloader" name="boardgametest">
+    <output-path>$PROJECT_DIR$/out/artifacts/boardgametest</output-path>
+    <root id="archive" name="boardgametest.jar" />
+  </artifact>
+</component>

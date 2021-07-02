@@ -1,0 +1,78 @@
+#intel-pane {
+    -fx-background-color: #c3c4c4, linear-gradient(#d6d6d6 50%, white 100%), radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+#menu-button {
+	-fx-text-fill: black;
+	-fx-background-color:
+        #707070,
+        linear-gradient(#fcfcfc, #f3f3f3),
+        linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
+	-fx-pref-width : 200;
+	-fx-pref-height : 50;
+}
+
+.button:hover {
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+#main-title {
+	-fx-font: bold 38px Pacifico;
+	-fx-alignment: center;
+}
+
+#sub-title {
+	-fx-font-size: 20px;
+    -fx-alignment: center;
+    -fx-font-weight: bold italics;
+}
+
+.button {
+	-fx-background-radius: 0;
+	-fx-pref-width: 100px;
+	-fx-pref-height: 100px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #fff;
+	-fx-background-color: GREY;
+}
+
+#button-OceanCell {
+	-fx-background-image: url("../images/Ocean.jpg");
+	-fx-background-color: linear-gradient(from 0px 0px to 20px 20px, repeat, deepskyblue  70%, aqua 40%);
+}
+
+#button-DesertCell {
+	-fx-background-image: url("../images/Desert.jpg");
+}
+
+#button-ForestCell {
+	-fx-background-image: url("../images/Forest.jpg");
+}
+
+#button-PlainCell {
+	-fx-background-image: url("../images/Plain.jpg");
+}
+
+#button-MountainCell {
+	-fx-background-image: url("../images/Mountain.jpg");
+}
+
+#button-DesertCell-busy {
+	-fx-background-color: #ff7f50;
+}
+
+#button-ForestCell-busy {
+	-fx-background-color: #228b22;
+}
+
+#button-PlainCell-busy {
+	-fx-background-color: #90ee90;
+}
+
+#button-MountainCell-busy {
+	-fx-background-color: #bdb76b;
+}
