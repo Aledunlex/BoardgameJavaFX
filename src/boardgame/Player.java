@@ -186,8 +186,11 @@ public abstract class Player extends AbstractPropertyChangeable {
 	 * @param unit to be removed from this player's list of units
 	 */
 	public void loseAllUnits() {
-		for (Unit unit : deployedUnits)
+		for (Unit unit : deployedUnits) {
 			unit.quit();
+		}
+		allControlledCells().clear();
+		allDeployedUnits().clear();
 	}
 
 	/**
