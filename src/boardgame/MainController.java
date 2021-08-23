@@ -1,14 +1,5 @@
 package boardgame;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Console;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.URL;
-import java.util.*;
-
 import boardgame.fabrices.FabriceArmy;
 import boardgame.fabrices.FabriceEcolo;
 import boardgame.game.GameEco;
@@ -26,15 +17,21 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.URL;
+import java.util.*;
+
 public class MainController implements Initializable, PropertyChangeListener {
 
     private static final int ROUNDS = 5;
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_LENGTH = 10;
-
-    private NoConsoleInputStrat inputStrat;
     private final Object loopKey = new Object();
-
+    private NoConsoleInputStrat inputStrat;
     private Cell clickedCell;
     private GridPane buttonsContainer;
     private Game theGame;
@@ -105,11 +102,10 @@ public class MainController implements Initializable, PropertyChangeListener {
      */
     protected void validateInput(ActionEvent e) {
         try {
-            int res =  Integer.parseInt(inputField.getText());
+            int res = Integer.parseInt(inputField.getText());
             inputStrat.setInputValue(res);
             Platform.exitNestedEventLoop(loopKey, null);
-        }
-        catch(IllegalArgumentException error) {
+        } catch (IllegalArgumentException error) {
             System.out.println("nope");
         }
 
@@ -117,8 +113,9 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     /**
      * Presque le meme que dans RandomStrategy; est appele par NoConsoleInputStrat
-     * @param min value
-     * @param max value
+     *
+     * @param min  value
+     * @param max  value
      * @param name de ce qui est input
      * @return la valeur si correct, sinon 0
      */
@@ -135,11 +132,9 @@ public class MainController implements Initializable, PropertyChangeListener {
             value = NoConsoleInputStrat.getInputValue();
             if (value < min) {
                 inputStrat.setWarningText("The input is too small, it must be greater than or equal to " + min);
-            }
-            else if (value >= max) {
+            } else if (value >= max) {
                 inputStrat.setWarningText("The input is too large, it must be less than " + max);
-            }
-            else {
+            } else {
                 saisieCorrect = true;
             }
         }
@@ -163,39 +158,42 @@ public class MainController implements Initializable, PropertyChangeListener {
                 playerLabel.setText("");
                 startButton.setVisible(false);
             }
+        } else {
+            System.out.println("ca sert a rien de cliquer a ce moment!");
         }
-        else {System.out.println("ca sert a rien de cliquer a ce moment!");}
     }
 
     private void updateCellStatus() {
         cellLabel.setText(clickedCell.getId() + " at [" + clickedCell.getX() + "," + clickedCell.getY() + ']');
-        busyLabel.setText("Is busy : " + (clickedCell.isBusy()?"Yes, it's occupied by "+clickedCell.getUnit().toString():"No")+".");
-        usableLabel.setText("Is usable : " + (clickedCell.usableInThisGame()?"Yes, it produces "+clickedCell.getResource().display():"No")+".");
+        busyLabel.setText("Is busy : " + (clickedCell.isBusy() ? "Yes, it's occupied by " + clickedCell.getUnit().toString() : "No") + ".");
+        usableLabel.setText("Is usable : " + (clickedCell.usableInThisGame() ? "Yes, it produces " + clickedCell.getResource().display() : "No") + ".");
         /*surroundingsLabel.setText("Is surrounded by : " + (determineSurroundings()?determineSurroundings()):"No one.");*/
-        bonusLabel.setText((clickedCell.getBonus()>0)?"End game bonus for owning this cell : " + clickedCell.getBonus():"");
+        bonusLabel.setText((clickedCell.getBonus() > 0) ? "End game bonus for owning this cell : " + clickedCell.getBonus() : "");
     }
 
-    /** Les Cell sont chargees et transformees en boutons sur l'interface.
+    /**
+     * Les Cell sont chargees et transformees en boutons sur l'interface.
      * Les informations sont (a priori) modifiees quand une Unit y est deployee ou en est retiree (ou traitorousUnit()).
      * Pour chaque tuile du plateau, on va creer un bouton; chaque bouton forme le plateau sur l'interface.
      * De plus, chaque bouton est cliquable et renvoie sur une autre fenetre qui donne les informations
      * relatives a la tuile cliquee.
-     *
      */
     private void initBoardView() {
         BoardGame board = theGame.getBoard();
         int boardY = board.getWidth();
         int boardX = board.getLength();
         buttonsContainer = new GridPane();
-        if (boardPane != null) {boardPane.getChildren().add(buttonsContainer);}
+        if (boardPane != null) {
+            boardPane.getChildren().add(buttonsContainer);
+        }
         for (int y = 0; y < boardY; y++) {
             for (int x = 0; x < boardX; x++) {
                 Cell cell = board.getCell(x, y);
                 Button res = new Button(cell.display());
-                res.setId("button-"+cell.getId());
+                res.setId("button-" + cell.getId());
                 res.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/resources/css/Main.css")).toExternalForm());
                 res.setOnAction(e -> handleCellClicked(e));
-                buttonsContainer.add(res,y,x);
+                buttonsContainer.add(res, y, x);
             }
         }
         initializeGridPaneArray();
@@ -220,7 +218,9 @@ public class MainController implements Initializable, PropertyChangeListener {
         if (evt.getPropertyName().equals("currentUnit") || evt.getPropertyName().equals("team")) {
             updateOwnedCellsLabel(evt);
         }
-        if (evt.getPropertyName().equals("resources"))  {System.out.println("buenos dias FUCKBOYS");}
+        if (evt.getPropertyName().equals("resources")) {
+            System.out.println("buenos dias FUCKBOYS");
+        }
         if (evt.getPropertyName().equals("currentPlayer"))
             updateCurrentPlayerLabel(evt);
         if (evt.getPropertyName().equals("warningText") || evt.getPropertyName().equals("messageText") || evt.getPropertyName().equals("availableSelection") || evt.getPropertyName().equals("inputValue"))
@@ -232,6 +232,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     /**
      * Modifie le nom du joueur dont c'est le tour sur l'interface
+     *
      * @param evt
      */
     private void updateCurrentPlayerLabel(PropertyChangeEvent evt) {
@@ -241,6 +242,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     /**
      * Modifie les affichages relatifs a la selection d'action sur l'interface
+     *
      * @param evt
      */
     private void updateAllInputLabels(PropertyChangeEvent evt) {
@@ -252,6 +254,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     /**
      * Modifie l'id du bouton de la tuile selon qu'elle est occupee ou non, pour son CSS
+     *
      * @param evt
      */
     private void updateCellButtonId(PropertyChangeEvent evt) {
@@ -259,9 +262,8 @@ public class MainController implements Initializable, PropertyChangeListener {
         Button button = getButtonAt(cell);
         String btnId = button.getId();
         if (evt.getNewValue() == null) {
-            btnId = btnId.substring(0, btnId.length()-5);
-        }
-        else {
+            btnId = btnId.substring(0, btnId.length() - 5);
+        } else {
             btnId += "-busy";
         }
         button.setId(btnId);
@@ -269,26 +271,28 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     /**
      * Met a jour la quantite de nourriture/or possedee par chaque joueur
+     *
      * @param evt
      */
     private void updateStuffToPleaseLabel(PropertyChangeEvent evt) {
         String stuffToPleaseByPlayer = "";
         for (Player player : theGame.getThePlayers()) {
-            stuffToPleaseByPlayer += "\n* "+ player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
+            stuffToPleaseByPlayer += "\n* " + player.toString() + " has " + player.getNeedQty() + player.needToString(player.getNeedQty());
         }
         eachplayerremainingfood.setText(stuffToPleaseByPlayer);
     }
 
     /**
      * Met a jour la quantite de tuiles possedee par chaque joueur
+     *
      * @param evt
      */
     private void updateOwnedCellsLabel(PropertyChangeEvent evt) {
         String ownedCellsByPlayer = "";
         for (Player player : theGame.getThePlayers()) {
-            if(player.allControlledCells() != null) {
+            if (player.allControlledCells() != null) {
                 int owned = player.allControlledCells().size();
-                ownedCellsByPlayer += "\n* "+ player + " owns " + (owned==0?"no":owned) + " cell" + (owned==1?"":"s") + ".";
+                ownedCellsByPlayer += "\n* " + player + " owns " + (owned == 0 ? "no" : owned) + " cell" + (owned == 1 ? "" : "s") + ".";
             }
         }
         eachplayernbofdeployed.setText(ownedCellsByPlayer);
@@ -298,7 +302,7 @@ public class MainController implements Initializable, PropertyChangeListener {
      * Met a jour le numero de tour sur l'interface
      */
     private void updateRoundLabel() {
-        int currRound = ROUNDS - theGame.maxRounds +1;
+        int currRound = ROUNDS - theGame.maxRounds + 1;
         String roundLabelText = String.valueOf(currRound);
         if (theGame.maxRounds == 1) {
             roundLabelText += " (final)";
@@ -329,7 +333,7 @@ public class MainController implements Initializable, PropertyChangeListener {
 
     private void initializeGridPaneArray() {
         this.gridPaneArray = new Node[BOARD_WIDTH][BOARD_LENGTH];
-        for(Node node : this.buttonsContainer.getChildren()) {
+        for (Node node : this.buttonsContainer.getChildren()) {
             this.gridPaneArray[GridPane.getRowIndex(node)][GridPane.getColumnIndex(node)] = node;
         }
     }
@@ -392,17 +396,19 @@ public class MainController implements Initializable, PropertyChangeListener {
 
         TextInputDialog dialog = new TextInputDialog("Patrick");
         dialog.setTitle("Name selection");
-        if (theGame == null) {dialog.setHeaderText("What's your name?");}
-        else {dialog.setHeaderText("What's the new player's name?");}
+        if (theGame == null) {
+            dialog.setHeaderText("What's your name?");
+        } else {
+            dialog.setHeaderText("What's the new player's name?");
+        }
         dialog.setContentText("Enter a name:");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent() && !nameTaken(result.get()) && !result.get().trim().isEmpty()) {
             return result.get().trim();
-        }
-        else {
+        } else {
             System.out.println("Defaulted to Patrick.");
-            return "Patrick" + String.valueOf(count);
+            return "Patrick" + count;
         }
     }
 
@@ -421,8 +427,10 @@ public class MainController implements Initializable, PropertyChangeListener {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             return Integer.parseInt(result.get().substring(0, 1));
+        } else {
+            System.out.println("Defaulted to 1.");
+            return 1;
         }
-        else {System.out.println("Defaulted to 1."); return 1;}
     }
 
     private BoardGame createBoard(Fabrice fabrice) {
